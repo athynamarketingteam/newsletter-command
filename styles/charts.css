@@ -1,0 +1,629 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   CHARTS — Newsletter Analytics Dashboard
+   Chart-specific styles and canvas containers
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CHART WRAPPER
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 280px;
+}
+
+.chart-wrapper--sm {
+    height: 200px;
+}
+
+.chart-wrapper--lg {
+    height: 360px;
+}
+
+/* Canvas element */
+.chart-canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SPARKLINE (SVG-based mini chart)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.sparkline {
+    width: 100%;
+    height: 100%;
+}
+
+.sparkline__line {
+    fill: none;
+    stroke: var(--color-chart-primary);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.sparkline__area {
+    fill: url(#sparkline-gradient);
+    opacity: 0.3;
+}
+
+.sparkline__dot {
+    fill: var(--color-chart-primary);
+    r: 3;
+}
+
+.sparkline__dot--last {
+    r: 4;
+    filter: drop-shadow(0 0 4px var(--color-glow));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CHART.JS CUSTOMIZATIONS
+   Override default Chart.js styles
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Tooltip customization */
+.chartjs-tooltip {
+    background: var(--color-surface-solid) !important;
+    border: var(--border-width) solid var(--color-surface-border) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-elevated) !important;
+    padding: var(--space-sm) var(--space-md) !important;
+    font-family: var(--font-family) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BAR CHART STYLES
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.bar-chart {
+    --bar-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   LINE/AREA CHART STYLES
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.line-chart {
+    --line-width: 3px;
+    --point-radius: 4px;
+    --point-hover-radius: 6px;
+}
+
+/* Glow effect on primary line */
+.line-chart--glow .chartjs-render-monitor {
+    filter: drop-shadow(0 0 8px var(--color-glow));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CHART AXES STYLING
+   Matches dark dashboard aesthetic
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* These are applied via Chart.js config, documented here for reference */
+
+/*
+Chart.defaults.color = 'rgba(255, 255, 255, 0.5)';
+Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
+Chart.defaults.font.family = 'Inter, sans-serif';
+Chart.defaults.font.size = 12;
+*/
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   NO DATA STATE
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.chart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--color-text-muted);
+    gap: var(--space-md);
+}
+
+.chart-empty__icon {
+    font-size: var(--font-size-3xl);
+    opacity: 0.3;
+}
+
+.chart-empty__text {
+    font-size: var(--font-size-sm);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CHART GRADIENTS (SVG Definitions)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* 
+   Include this SVG in HTML for gradient references:
+   
+   <svg width="0" height="0" style="position: absolute;">
+       <defs>
+           <linearGradient id="chart-gradient-primary" x1="0%" y1="0%" x2="0%" y2="100%">
+               <stop offset="0%" style="stop-color: #C2EE6B; stop-opacity: 0.4" />
+               <stop offset="100%" style="stop-color: #C2EE6B; stop-opacity: 0" />
+           </linearGradient>
+           <linearGradient id="chart-gradient-negative" x1="0%" y1="100%" x2="0%" y2="0%">
+               <stop offset="0%" style="stop-color: #FF6B6B; stop-opacity: 0.3" />
+               <stop offset="100%" style="stop-color: #FF6B6B; stop-opacity: 0" />
+           </linearGradient>
+           <linearGradient id="sparkline-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+               <stop offset="0%" style="stop-color: #C2EE6B; stop-opacity: 0.3" />
+               <stop offset="100%" style="stop-color: #C2EE6B; stop-opacity: 0" />
+           </linearGradient>
+       </defs>
+   </svg>
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION TABS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.section-tabs {
+    display: flex;
+    gap: 4px;
+    position: relative;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.section-tabs__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted, rgba(255, 255, 255, 0.45));
+    font-family: var(--font-primary, 'Inter', sans-serif);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 2;
+    white-space: nowrap;
+}
+
+.section-tabs__item svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.6;
+    transition: opacity 0.25s ease;
+}
+
+.section-tabs__item:hover {
+    color: var(--color-text-secondary, rgba(255, 255, 255, 0.75));
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.section-tabs__item:hover svg {
+    opacity: 0.9;
+}
+
+.section-tabs__item.is-active {
+    color: var(--color-text, #fff);
+    background: rgba(194, 238, 107, 0.12);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.section-tabs__item.is-active svg {
+    opacity: 1;
+    color: var(--color-chart-primary, #C2EE6B);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TAB PANELS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.tab-panel {
+    display: none;
+    animation: tabFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-panel--active {
+    display: block;
+}
+
+@keyframes tabFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ENGAGEMENT STATS (top 3 summary cards)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.engagement-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.engagement-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+}
+
+.engagement-stat-card__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(194, 238, 107, 0.15);
+    color: var(--accent, #C2EE6B);
+    flex-shrink: 0;
+}
+
+.engagement-stat-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.engagement-stat-card__value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text, #fff);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.engagement-stat-card__label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-muted, rgba(255, 255, 255, 0.5));
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ENGAGEMENT GRID (Donut + Leaderboard)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.engagement-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+/* Badge next to chart title */
+.chart-container__badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(194, 238, 107, 0.1);
+    color: var(--color-chart-primary, #C2EE6B);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* ===== DONUT CHART ===== */
+
+.donut-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 16px 0;
+}
+
+.donut-chart-area {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    flex-shrink: 0;
+}
+
+.donut-chart-area canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.donut-center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.donut-center-text__value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--color-text, #fff);
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.donut-center-text__label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-muted, rgba(255, 255, 255, 0.5));
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+}
+
+/* Donut Legend */
+.donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.donut-legend__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.donut-legend__color {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--dot-color, #C2EE6B);
+    flex-shrink: 0;
+}
+
+.donut-legend__label {
+    font-size: 13px;
+    color: var(--color-text-secondary, rgba(255, 255, 255, 0.7));
+    flex: 1;
+}
+
+.donut-legend__value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text, #fff);
+}
+
+/* Donut Target Bar */
+.donut-target {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(194, 238, 107, 0.06);
+    border-radius: 10px;
+    border: 1px solid rgba(194, 238, 107, 0.1);
+    margin-top: 8px;
+}
+
+.donut-target__label {
+    font-size: 12px;
+    color: var(--color-text-muted, rgba(255, 255, 255, 0.5));
+}
+
+.donut-target__value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-chart-primary, #C2EE6B);
+}
+
+/* ===== LEADERBOARD ===== */
+
+.leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.leaderboard__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    transition: background 0.2s ease;
+    position: relative;
+}
+
+.leaderboard__item:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.leaderboard__rank {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--color-text-muted, rgba(255, 255, 255, 0.5));
+}
+
+.leaderboard__item:nth-child(1) .leaderboard__rank {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #1C1E1B;
+}
+
+.leaderboard__item:nth-child(2) .leaderboard__rank {
+    background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+    color: #1C1E1B;
+}
+
+.leaderboard__item:nth-child(3) .leaderboard__rank {
+    background: linear-gradient(135deg, #CD7F32, #A0522D);
+    color: #fff;
+}
+
+.leaderboard__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.leaderboard__title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text, #fff);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.leaderboard__meta {
+    font-size: 11px;
+    color: var(--color-text-muted, rgba(255, 255, 255, 0.45));
+    margin-top: 2px;
+}
+
+.leaderboard__value {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--color-chart-primary, #C2EE6B);
+    flex-shrink: 0;
+}
+
+.leaderboard__bar {
+    position: absolute;
+    bottom: 0;
+    left: 56px;
+    right: 70px;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+}
+
+.leaderboard__bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-chart-primary, #C2EE6B), rgba(194, 238, 107, 0.4));
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Empty state */
+.leaderboard__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    gap: 12px;
+}
+
+.leaderboard__empty-icon {
+    font-size: 36px;
+    opacity: 0.5;
+}
+
+.leaderboard__empty-text {
+    font-size: 13px;
+    color: var(--color-text-muted, rgba(255, 255, 255, 0.4));
+    text-align: center;
+}
+
+/* ===== CHART WRAPPER LARGE (for horizontal bar) ===== */
+.chart-wrapper--lg {
+    min-height: 340px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .section-tabs {
+    background: rgba(28, 30, 27, 0.03);
+    border-color: rgba(28, 30, 27, 0.08);
+}
+
+[data-theme="light"] .section-tabs__item {
+    color: rgba(28, 30, 27, 0.45);
+}
+
+[data-theme="light"] .section-tabs__item:hover {
+    color: rgba(28, 30, 27, 0.7);
+    background: rgba(28, 30, 27, 0.04);
+}
+
+[data-theme="light"] .section-tabs__item.is-active {
+    color: #1C1E1B;
+    background: rgba(28, 30, 27, 0.06);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .section-tabs__item.is-active svg {
+    color: #2D7A3A;
+}
+
+[data-theme="light"] .engagement-stat-card__icon {
+    background: rgba(110, 53, 203, 0.10);
+}
+
+[data-theme="light"] .leaderboard__item:hover {
+    background: rgba(28, 30, 27, 0.03);
+}
+
+[data-theme="light"] .leaderboard__bar {
+    background: rgba(28, 30, 27, 0.06);
+}
+
+[data-theme="light"] .chart-container__badge {
+    background: rgba(45, 122, 58, 0.08);
+    color: #2D7A3A;
+}
+
+[data-theme="light"] .donut-target {
+    background: rgba(45, 122, 58, 0.05);
+    border-color: rgba(45, 122, 58, 0.1);
+}
+
+[data-theme="light"] .donut-target__value {
+    color: #2D7A3A;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .engagement-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .engagement-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .donut-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .section-tabs {
+        flex-wrap: wrap;
+    }
+}

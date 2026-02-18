@@ -1,0 +1,27 @@
+# Environment variables
+.env
+.env.local
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Local config (not needed in deployment)
+newsletters.json
+
+# Reference/development files
+*.resolved
+Dashboard reference*.png
+pdf-preview.png
+dashboard_metrics_reference.pdf
+
+# Agent skills
+.agent/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp

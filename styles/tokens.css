@@ -1,0 +1,183 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   DESIGN TOKENS — Newsletter Analytics Dashboard
+   Roko's Basilisk Theme — v2 Redesign
+   
+   All visual properties are defined here. Components must reference these
+   tokens — never use hardcoded values.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+:root {
+    /* ═══════════════════════════════════════════════════════════════════════
+       COLORS — Dark Mode Default (Charcoal / Navy)
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* Primary Brand — Vibrant lime-green accent */
+    --color-primary: #C2EE6B;
+    --color-primary-hover: #D4F48E;
+    --color-primary-active: #A8D44F;
+
+    /* Backgrounds — Deep charcoal, neutral */
+    --color-background: #111111;
+    --color-background-alt: #181818;
+    --color-background-darker: #0A0A0A;
+    --color-surface: rgba(24, 24, 24, 0.85);
+    --color-surface-hover: rgba(32, 32, 32, 0.92);
+    --color-surface-solid: #1C1C1C;
+
+    /* Borders */
+    --color-surface-border: rgba(255, 255, 255, 0.08);
+    --color-surface-border-hover: rgba(255, 255, 255, 0.15);
+    --color-glow: rgba(194, 238, 107, 0.5);
+    --color-glow-subtle: rgba(194, 238, 107, 0.06);
+
+    /* Text */
+    --color-text: #F1F3F5;
+    --color-text-secondary: rgba(241, 243, 245, 0.65);
+    --color-text-muted: rgba(241, 243, 245, 0.40);
+    --color-text-on-primary: #0F1117;
+
+    /* Semantic */
+    --color-positive: #22C55E;
+    --color-positive-bg: rgba(34, 197, 94, 0.12);
+    --color-negative: #EF4444;
+    --color-negative-bg: rgba(239, 68, 68, 0.12);
+    --color-neutral: rgba(241, 243, 245, 0.45);
+    --color-warning: #F59E0B;
+
+    /* Accent palette for KPI cards */
+    --color-accent-blue: #3B82F6;
+    --color-accent-purple: #8B5CF6;
+    --color-accent-green: #22C55E;
+    --color-accent-orange: #F59E0B;
+    --color-accent-pink: #EC4899;
+    --color-accent-cyan: #06B6D4;
+
+    /* Chart Colors */
+    --color-chart-primary: #3B82F6;
+    --color-chart-secondary: #22C55E;
+    --color-chart-tertiary: #8B5CF6;
+    --color-chart-grid: rgba(255, 255, 255, 0.06);
+    --color-chart-area-fill: rgba(59, 130, 246, 0.15);
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SPACING
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --space-2xs: 2px;
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 20px;
+    --space-xl: 28px;
+    --space-2xl: 36px;
+    --space-3xl: 48px;
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       TYPOGRAPHY — Keep Inter
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    /* Font Sizes — wider scale for dramatic hierarchy */
+    --font-size-2xs: 10px;
+    --font-size-xs: 11px;
+    --font-size-sm: 12px;
+    --font-size-base: 14px;
+    --font-size-lg: 16px;
+    --font-size-xl: 18px;
+    --font-size-2xl: 24px;
+    --font-size-3xl: 32px;
+    --font-size-4xl: 40px;
+    --font-size-5xl: 52px;
+
+    /* Font Weights */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-black: 800;
+
+    /* Line Heights */
+    --line-height-tight: 1.1;
+    --line-height-snug: 1.25;
+    --line-height-normal: 1.5;
+
+    /* Letter Spacing */
+    --letter-spacing-tight: -0.02em;
+    --letter-spacing-tighter: -0.04em;
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.06em;
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       BORDERS & RADIUS — Larger, more modern
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-2xl: 24px;
+    --radius-full: 9999px;
+
+    --border-width: 1px;
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SHADOWS — Confident, no glassmorphism
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    --shadow-elevated: 0 16px 48px rgba(0, 0, 0, 0.45);
+    --shadow-inner-glow: none;
+
+    /* Glow Effects */
+    --shadow-glow-sm: 0 0 8px var(--color-glow);
+    --shadow-glow-md: 0 0 16px var(--color-glow);
+    --shadow-glow-lg: 0 0 24px var(--color-glow);
+
+    /* Blur */
+    --blur-sm: 8px;
+    --blur-md: 12px;
+    --blur-lg: 24px;
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       TRANSITIONS
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --transition-fast: 120ms ease;
+    --transition-base: 200ms ease;
+    --transition-slow: 300ms ease;
+    --transition-slower: 400ms ease;
+    --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    --transition-colors: color 200ms ease, background-color 200ms ease, border-color 200ms ease;
+    --transition-transform: transform 200ms ease;
+    --transition-shadow: box-shadow 200ms ease;
+    --transition-all: all 200ms ease;
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       LAYOUT
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --content-max-width: 1600px;
+    --content-padding: var(--space-xl);
+    --header-height: 64px;
+    --section-gap: var(--space-xl);
+    --card-gap: var(--space-lg);
+
+    /* Grid */
+    --grid-columns-kpi: repeat(3, 1fr);
+    --grid-columns-charts: repeat(2, 1fr);
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       Z-INDEX SCALE
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --z-base: 0;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-overlay: 300;
+    --z-modal: 400;
+    --z-tooltip: 500;
+}

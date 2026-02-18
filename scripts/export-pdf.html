@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Metrics Reference — Athyna</title>
+    <!-- Mermaid.js for diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <!-- Marked.js for markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --athyna-purple: #6E35CB;
+            --athyna-purple-light: #8B5BD5;
+            --athyna-purple-bg: #F3EDFC;
+            --athyna-mint: #6CD7AE;
+            --athyna-mint-light: #E6F9F1;
+            --athyna-navy: #1A1F34;
+            --athyna-navy-medium: #2E3555;
+            --athyna-offwhite: #F8F5F2;
+            --athyna-gray-100: #F4F4F5;
+            --athyna-gray-200: #E4E4E7;
+            --athyna-gray-400: #A1A1AA;
+            --athyna-gray-600: #52525B;
+            --athyna-gray-800: #27272A;
+            --athyna-warning: #F59E0B;
+            --athyna-warning-bg: #FFFBEB;
+            --athyna-info-bg: #EEF6FF;
+            --athyna-info: #3B82F6;
+            --athyna-tip-bg: #E6F9F1;
+            --athyna-tip: #10B981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            color: var(--athyna-navy);
+            background: white;
+            line-height: 1.65;
+            padding: 0;
+        }
+
+        /* ── Cover Page ─────────────────────────────────────── */
+        .cover-page {
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--athyna-navy) 0%, var(--athyna-navy-medium) 40%, var(--athyna-purple) 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-page::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -15%;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(108, 215, 174, 0.15) 0%, transparent 70%);
+        }
+
+        .cover-page::after {
+            content: '';
+            position: absolute;
+            bottom: -10%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(110, 53, 203, 0.2) 0%, transparent 70%);
+        }
+
+        .cover-logo {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            color: var(--athyna-mint);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-title {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-badge {
+            margin-top: 3rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.4rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(108, 215, 174, 0.3);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--athyna-mint);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Content Area ───────────────────────────────────── */
+        .content {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 2.5rem 3rem;
+        }
+
+        /* ── Typography ─────────────────────────────────────── */
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--athyna-purple);
+            margin: 2.5rem 0 0.5rem 0;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--athyna-navy);
+            margin: 2.5rem 0 0.75rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--athyna-purple);
+            display: inline-block;
+            line-height: 1.3;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--athyna-navy-medium);
+            margin: 1.8rem 0 0.5rem 0;
+            page-break-after: avoid;
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--athyna-purple);
+            margin: 1.4rem 0 0.4rem 0;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin: 0.6rem 0;
+            color: var(--athyna-gray-800);
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--athyna-navy);
+        }
+
+        /* ── Horizontal Rules ───────────────────────────────── */
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, var(--athyna-purple-bg), var(--athyna-gray-200), var(--athyna-purple-bg));
+            margin: 2rem 0;
+        }
+
+        /* ── Lists ──────────────────────────────────────────── */
+        ul,
+        ol {
+            margin: 0.5rem 0 0.5rem 1.5rem;
+            color: var(--athyna-gray-800);
+        }
+
+        li {
+            margin: 0.3rem 0;
+            line-height: 1.6;
+        }
+
+        li::marker {
+            color: var(--athyna-purple);
+        }
+
+        /* ── Task List (Checklist) ──────────────────────────── */
+        ul.checklist {
+            list-style: none;
+            margin-left: 0;
+            padding: 0;
+        }
+
+        ul.checklist li {
+            position: relative;
+            padding: 0.4rem 0 0.4rem 2rem;
+            border-bottom: 1px solid var(--athyna-gray-100);
+        }
+
+        ul.checklist li::before {
+            content: '☐';
+            position: absolute;
+            left: 0.2rem;
+            top: 0.4rem;
+            font-size: 1.1rem;
+            color: var(--athyna-purple);
+        }
+
+        /* ── Tables ─────────────────────────────────────────── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 1.5rem 0;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--athyna-gray-200);
+        }
+
+        thead {
+            background: var(--athyna-navy);
+            color: white;
+        }
+
+        th {
+            padding: 0.7rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid var(--athyna-gray-100);
+            color: var(--athyna-gray-800);
+        }
+
+        tbody tr:nth-child(even) {
+            background: var(--athyna-gray-100);
+        }
+
+        tbody tr:hover {
+            background: var(--athyna-purple-bg);
+        }
+
+        /* ── Callout Blocks ─────────────────────────────────── */
+        blockquote {
+            margin: 1rem 0;
+            padding: 0.9rem 1.2rem;
+            border-left: 4px solid var(--athyna-purple);
+            background: var(--athyna-purple-bg);
+            border-radius: 0 8px 8px 0;
+            color: var(--athyna-gray-800);
+            font-size: 0.95rem;
+        }
+
+        /* GitHub-style alerts */
+        .alert-tip {
+            border-left-color: var(--athyna-tip);
+            background: var(--athyna-tip-bg);
+        }
+
+        .alert-important {
+            border-left-color: var(--athyna-purple);
+            background: var(--athyna-purple-bg);
+        }
+
+        .alert-note {
+            border-left-color: var(--athyna-info);
+            background: var(--athyna-info-bg);
+        }
+
+        .alert-warning {
+            border-left-color: var(--athyna-warning);
+            background: var(--athyna-warning-bg);
+        }
+
+        .alert-label {
+            font-weight: 700;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .alert-tip .alert-label {
+            color: var(--athyna-tip);
+        }
+
+        .alert-important .alert-label {
+            color: var(--athyna-purple);
+        }
+
+        .alert-note .alert-label {
+            color: var(--athyna-info);
+        }
+
+        .alert-warning .alert-label {
+            color: var(--athyna-warning);
+        }
+
+        /* ── Mermaid Diagrams ───────────────────────────────── */
+        .mermaid-wrapper {
+            margin: 1.2rem 0;
+            padding: 1.2rem;
+            background: var(--athyna-offwhite);
+            border: 1px solid var(--athyna-gray-200);
+            border-radius: 10px;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+
+        .mermaid-wrapper svg {
+            max-width: 100%;
+        }
+
+        /* ── Inline Code ────────────────────────────────────── */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            background: var(--athyna-purple-bg);
+            color: var(--athyna-purple);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+        }
+
+        /* ── Section Headers (emoji sections) ───────────────── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin: 2.5rem 0 0.75rem 0;
+        }
+
+        .section-emoji {
+            font-size: 1.4rem;
+        }
+
+        /* ── Footer ─────────────────────────────────────────── */
+        .page-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--athyna-gray-200);
+            text-align: center;
+            color: var(--athyna-gray-400);
+            font-size: 0.8rem;
+        }
+
+        .page-footer .brand {
+            color: var(--athyna-purple);
+            font-weight: 600;
+        }
+
+        /* ── Print Styles ───────────────────────────────────── */
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .content {
+                padding: 1.5rem 2rem;
+            }
+
+            .cover-page {
+                min-height: auto;
+                height: 100vh;
+            }
+
+            h2,
+            h3,
+            h4 {
+                page-break-after: avoid;
+            }
+
+            table,
+            .mermaid-wrapper,
+            blockquote {
+                page-break-inside: avoid;
+            }
+
+            .page-footer {
+                page-break-before: avoid;
+            }
+        }
+
+        /* ── Page break utility ─────────────────────────────── */
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══ Cover Page ═══ -->
+    <div class="cover-page">
+        <div class="cover-logo">ATHYNA</div>
+        <h1 class="cover-title">📊 Dashboard Metrics<br>Reference Guide</h1>
+        <p class="cover-subtitle">How our dashboard calculates its numbers — a verification guide for cross-checking
+            with Beehiiv Analytics</p>
+        <div class="cover-badge">✅ Covers both XLSX Import &amp; API Sync</div>
+    </div>
+
+    <!-- ═══ Content ═══ -->
+    <div class="content" id="content">
+        <!-- Content will be injected by JS -->
+    </div>
+
+    <script>
+        const markdown = `## How Data Gets From Beehiiv → Our Dashboard
+
+There are **two ways** to get your data into the dashboard. Both produce the same result — they just get there differently:
+
+\`\`\`mermaid
+flowchart LR
+    A["🐝 Beehiiv Analytics"] -->|"📊 Export XLSX"| B["Upload Excel file\\n(3 tabs)"]
+    A -->|"🔄 Click Sync"| C["Live API connection"]
+    B --> D["🖥️ Our Dashboard"]
+    C --> D
+\`\`\`
+
+### Option A: Upload an Excel File
+
+When you export your analytics from Beehiiv as an Excel file, it comes with **three tabs**:
+
+| Excel Tab | What it contains | What it powers on our dashboard |
+|---|---|---|
+| **Posts** | One row per email sent | KPI cards, performance chart, engagement stats, posts table |
+| **Current Subscribers** | Daily subscriber snapshots | Hero number (big subscriber count), audience chart |
+| **Subscriber Monthly** | Monthly sub/unsub counts | Growth chart |
+
+### Option B: Press the 🔄 Sync Button
+
+Instead of exporting a file manually, you can just click **Sync** — the dashboard connects directly to Beehiiv's API and pulls everything automatically.
+
+> [!TIP]
+> **Sync gives you real-time data.** The Excel file is a snapshot from whenever you exported it, but Sync always fetches the latest numbers straight from Beehiiv.
+
+> [!NOTE]
+> In most cases, both methods give you the same numbers. Small differences can appear because the API sometimes provides overall publication averages instead of individual post stats. If you notice a slight discrepancy, that's why — it's normal and the difference is typically negligible.
+
+---
+
+## 🏠 Overview Tab
+
+### The Big Number: Active Subscribers
+
+> The large number at the top of the dashboard.
+
+- **What it shows:** Your current number of active subscribers
+- **Excel method:** Takes the **most recent date** from the "Current Subscribers" tab
+- **Sync method:** Pulls the **live Active Subscribers** count directly from Beehiiv
+- **Where to verify in Beehiiv:** Go to **Beehiiv → Audience** → the "Active" count at the top
+
+The small **delta badge** next to it (e.g., "+5.2% ↑") compares your oldest subscriber count vs. your newest:
+
+> **Delta = (newest count − oldest count) ÷ oldest count × 100**
+
+---
+
+### The 6 KPI Cards
+
+Each card shows an **aggregate number** across all your emails in the selected time period (30 days, 90 days, or all time).
+
+> [!IMPORTANT]
+> Our dashboard uses **weighted averages** for percentage metrics — this means an email sent to 10,000 people counts more than one sent to 100 people. This matches how Beehiiv calculates their overview numbers.
+
+---
+
+#### Card 1: Open Rate
+
+\`\`\`mermaid
+flowchart LR
+    A["Total Unique Opens\\n(all emails combined)"] -->|÷| B["Total Delivered\\n(all emails combined)"]
+    B -->|× 100| C["Open Rate %"]
+\`\`\`
+
+- **Example:** If you sent 3 emails and got 500 + 300 + 200 = 1,000 unique opens out of 800 + 600 + 500 = 1,900 delivered → **Open Rate = 52.6%**
+- **In Beehiiv:** Go to **Posts → All Posts** → look at the "Open Rate" column. To compare, mentally average them weighted by how many people received each email — or just compare the dashboard's number to Beehiiv's overview "Open Rate" stat.
+
+---
+
+#### Card 2: Click-Through Rate (CTR)
+
+\`\`\`mermaid
+flowchart LR
+    A["Total Unique Clicks\\n(all emails)"] -->|÷| B["Total Unique Opens\\n(all emails)"]
+    B -->|× 100| C["CTR %"]
+\`\`\`
+
+- **What it measures:** Of the people who *opened* your emails, what percentage *clicked* a link?
+- **In Beehiiv:** This is the "Click Rate" shown per post. Our dashboard combines all posts weighted by opens.
+
+---
+
+#### Card 3: Verified CTR
+
+Same as CTR, but uses **Verified Clicks** instead of all clicks.
+
+- **What "verified" means:** Beehiiv filters out bots and automated scanners. Only clicks from real humans count.
+- **Formula:** Total Verified Clicks ÷ Total Unique Opens × 100
+- **In Beehiiv:** Look for "Verified Click Rate" in your post stats.
+
+---
+
+#### Card 4: Delivery Rate
+
+\`\`\`mermaid
+flowchart LR
+    A["Total Delivered\\n(all emails)"] -->|÷| B["Total Sent\\n(all emails)"]
+    B -->|× 100| C["Delivery Rate %"]
+\`\`\`
+
+- **What it measures:** What % of sent emails actually landed in inboxes (not bounced)?
+- **In Beehiiv:** Compare against the "Delivery Rate" on individual posts.
+
+---
+
+#### Card 5: Unique Clicks
+
+- **Just a simple sum:** Adds up all unique clicks across every email in the time period
+- **In Beehiiv:** Go to **Posts → All Posts** → add up the "Unique Clicks" column for the same date range
+
+---
+
+#### Card 6: Verified Clicks
+
+- **Same as above, but bot-filtered:** Adds up all verified unique clicks
+- **In Beehiiv:** Look at "Verified Unique Clicks" per post and sum them up
+
+---
+
+### How the ↑↓ Delta Badges Work (All Cards)
+
+Each KPI card shows a small green/red badge showing whether the metric is trending up or down. Here's how it's calculated:
+
+\`\`\`mermaid
+flowchart TD
+    A["All emails in selected period"] -->|Sort by date| B["Split in half"]
+    B --> C["First Half\\n(older emails)"]
+    B --> D["Second Half\\n(newer emails)"]
+    C --> E["Calculate rate/sum\\nfor this half"]
+    D --> F["Calculate rate/sum\\nfor this half"]
+    E --> G["Compare:\\nSecond Half vs First Half"]
+    F --> G
+    G --> H["↑ Green if improving\\n↓ Red if declining"]
+\`\`\`
+
+- For **rates** (Open Rate, CTR, etc.): The badge shows the **percentage change** between the two halves (e.g., "+3.2%")
+- For **counts** (Clicks): The badge shows the **raw difference** (e.g., "+142")
+
+---
+
+### Performance Chart (Bar Chart)
+
+- **What it shows:** Verified Unique Clicks per month (or per week)
+- **Where to verify:** In Beehiiv, look at each post's "Verified Unique Clicks" and manually sum by month
+- **Toggle:** Switch between Monthly and Weekly views
+
+---
+
+## 💡 Engagement Tab
+
+### Summary Cards Row
+
+| Card | What it shows | How it's calculated | Where in Beehiiv |
+|---|---|---|---|
+| **Total Opens** | All unique opens combined | Sum of "Unique Opens" from every email in the period | Add up the Opens column for each post |
+| **Total Clicks** | All unique clicks combined | Sum of "Unique Clicks" from every email | Add up the Clicks column for each post |
+| **Posts Sent** | Number of emails sent | Simply counts how many emails are in the period | Count the rows in Posts for that date range |
+
+### Open Rate Donut (Pie Chart)
+
+- **Shows:** The overall open rate as a visual pie — green for opened, gray for unopened
+- **Formula:** Same logic as the Open Rate KPI card (total opens ÷ total delivered)
+- **Center number:** The open rate percentage
+
+### 🏆 Top Posts Leaderboard
+
+- **Shows:** Your top 7 best-performing emails ranked by Open Rate
+- **Ranking:** Each post's open rate, sorted highest to lowest
+- **Note:** This shows **all-time** top posts, not filtered by the date toggle
+- **In Beehiiv:** Go to **Posts → All Posts** → sort by "Open Rate" descending
+
+### Clicks by Post (Horizontal Bars)
+
+- **Shows:** Top 10 posts by click count
+- **Metric used:** Unique Clicks (or Verified Clicks if unique aren't available)
+- **Date filtered:** Yes, respects the 30d/90d toggle
+- **In Beehiiv:** Sort Posts by "Unique Clicks" descending
+
+---
+
+## 📈 Growth Tab
+
+### Subscriber Growth Chart (Bars + Line)
+
+\`\`\`mermaid
+flowchart LR
+    A["🟢 Green bars\\n= New subscribers\\nper month"] --- B["🔴 Red bars\\n= Unsubscribes\\nper month"]
+    B --- C["- - Dashed line - -\\n= Net growth\\n(new − lost)"]
+\`\`\`
+
+- **Where the data comes from:**
+  - **Excel:** Directly from the "Subscriber Monthly" tab (includes both new subs and unsubs)
+  - **Sync:** Derives monthly unsubscribes from your posts. New subscriber counts aren't available via API, so this chart works best with the Excel method.
+- **In Beehiiv:** Go to **Audience → Growth** → compare the Subscribed / Unsubscribed / Net numbers per month
+
+### Active Subscribers Over Time (Area Chart)
+
+- **Shows:** A line chart of your active subscriber count over time
+- **Where the data comes from:**
+  - **Excel:** One data point per date from the "Current Subscribers" tab — exact daily counts
+  - **Sync:** Estimates historical counts based on how many people received each email (the "sent" count is roughly your subscriber count at that time), plus today's live count from the API
+- **In Beehiiv:** Go to **Audience** → look at the subscriber trend line
+
+---
+
+## 📬 Posts Table (Bottom of Dashboard)
+
+The table at the bottom shows individual email performance:
+
+| Column | What it shows | Beehiiv equivalent |
+|---|---|---|
+| **Title** | The email subject line | "Subject" column in Posts |
+| **Date** | When the email was sent | "Send Date" in Posts |
+| **Recipients** | How many people received it | "Delivered" (or "Sent") |
+| **Opens** | How many unique people opened it | "Unique Opens" |
+| **Clicks** | How many unique people clicked | "Unique Clicks" |
+| **CTR** | Click-through rate for that email | "Click Rate" |
+
+You can sort by any column, search by title, and change how many posts per page.
+
+---
+
+## 🔍 Quick Verification Checklist
+
+Use this checklist when cross-referencing the dashboard with Beehiiv:
+
+- [ ] **Active Subscribers** → Beehiiv Audience → Active count
+- [ ] **Open Rate** → Beehiiv Posts → weighted average of Open Rate
+- [ ] **CTR** → Beehiiv Posts → weighted average of Click Rate
+- [ ] **Verified CTR** → Beehiiv Posts → weighted average of Verified Click Rate
+- [ ] **Delivery Rate** → Beehiiv Posts → weighted average of Delivery Rate
+- [ ] **Unique Clicks** → Beehiiv Posts → sum of Unique Clicks column
+- [ ] **Verified Clicks** → Beehiiv Posts → sum of Verified Unique Clicks column
+- [ ] **Total Opens (Engagement)** → Beehiiv Posts → sum of Unique Opens
+- [ ] **Total Clicks (Engagement)** → Beehiiv Posts → sum of Unique Clicks
+- [ ] **Posts Sent** → Count of posts in Beehiiv for the period
+- [ ] **Growth chart** → Beehiiv Audience → Growth → monthly breakdown
+- [ ] **Audience chart** → Beehiiv Audience → subscriber trend
+
+---
+
+## ⚠️ Things to Watch Out For
+
+1. **Date range matters:** Make sure you're looking at the same period in both Beehiiv and the dashboard (30 days, 90 days, or all time)
+2. **The leaderboard is NOT date-filtered** — it always shows your all-time best posts
+3. **Weighted vs. simple averages:** If you manually average open rates in a spreadsheet, you'll get a slightly different number than our dashboard. Our dashboard weights by audience size (same as Beehiiv).
+4. **Verified Clicks < Unique Clicks** — Verified clicks are always lower because bots are removed. It's normal for this number to be significantly smaller.
+5. **Excel vs. Sync might differ slightly** — The Sync button pulls live data from Beehiiv, while the Excel file is a snapshot from when you exported. Small differences in subscriber history and growth charts are normal since the API estimates historical subscriber counts from your email send volumes.
+`;
+
+        // ── Initialize Mermaid ──
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#F3EDFC',
+                primaryBorderColor: '#6E35CB',
+                primaryTextColor: '#1A1F34',
+                lineColor: '#6E35CB',
+                secondaryColor: '#E6F9F1',
+                tertiaryColor: '#F8F5F2',
+                fontFamily: 'DM Sans, sans-serif',
+                fontSize: '13px',
+                edgeLabelBackground: '#FFFFFF',
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 15,
+                htmlLabels: true,
+            }
+        });
+
+        // ── Custom Marked Renderer ──
+        const renderer = new marked.Renderer();
+
+        // Handle mermaid code blocks
+        renderer.code = function ({ text, lang }) {
+            if (lang === 'mermaid') {
+                return '<div class="mermaid-wrapper"><pre class="mermaid">' + text + '</pre></div>';
+            }
+            return '<pre><code>' + text + '</code></pre>';
+        };
+
+        // Handle task list items
+        renderer.listitem = function ({ text, task, checked }) {
+            if (task) {
+                return '<li class="checklist-item">' + text.replace(/<input.*?>/, '') + '</li>';
+            }
+            return '<li>' + text + '</li>';
+        };
+
+        renderer.list = function ({ body, ordered, start }) {
+            // Check if body contains checklist items
+            if (body.includes('checklist-item')) {
+                return '<ul class="checklist">' + body + '</ul>';
+            }
+            if (ordered) {
+                return '<ol start="' + (start || 1) + '">' + body + '</ol>';
+            }
+            return '<ul>' + body + '</ul>';
+        };
+
+        // Handle GitHub-style alerts in blockquotes
+        renderer.blockquote = function ({ text }) {
+            const alertTypes = {
+                'TIP': 'alert-tip',
+                'NOTE': 'alert-note',
+                'IMPORTANT': 'alert-important',
+                'WARNING': 'alert-warning',
+                'CAUTION': 'alert-warning'
+            };
+
+            for (const [label, cls] of Object.entries(alertTypes)) {
+                const pattern = new RegExp('\\[!' + label + '\\]');
+                if (pattern.test(text)) {
+                    const cleanText = text.replace(pattern, '').replace(/^\s*<p>\s*/, '<p>');
+                    return '<blockquote class="' + cls + '"><span class="alert-label">' + label.charAt(0) + label.slice(1).toLowerCase() + '</span>' + cleanText + '</blockquote>';
+                }
+            }
+            return '<blockquote>' + text + '</blockquote>';
+        };
+
+        // Parse markdown
+        marked.setOptions({ renderer: renderer, gfm: true, breaks: false });
+
+        const html = marked.parse(markdown);
+        document.getElementById('content').innerHTML = html;
+
+        // Add footer
+        document.getElementById('content').innerHTML += '<div class="page-footer"><span class="brand">ATHYNA</span> — Dashboard Metrics Reference · Generated Feb 2025</div>';
+
+        // Render mermaid diagrams
+        mermaid.run();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Newsletter Command — Track performance metrics across all your newsletters">
+
+    <title>Newsletter Command</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/tokens.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/charts.css">
+    <link rel="stylesheet" href="styles/modals.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <link rel="stylesheet" href="styles/date-picker.css">
+    <link rel="stylesheet" href="styles/kpi-detail.css">
+    <link rel="stylesheet" href="styles/export-modal.css">
+    <link rel="stylesheet" href="styles/posts-table.css">
+    <link rel="stylesheet" href="styles/insight-bar.css">
+    <link rel="stylesheet" href="styles/performance-highlights.css">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#111111">
+
+    <!-- Favicon (Basilisk Green square) -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23C2EE6B' width='100' height='100' rx='20'/></svg>">
+</head>
+
+<body>
+    <!-- SVG Gradient Definitions -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="chart-gradient-primary" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color: #C2EE6B; stop-opacity: 0.4" />
+                <stop offset="100%" style="stop-color: #C2EE6B; stop-opacity: 0" />
+            </linearGradient>
+            <linearGradient id="chart-gradient-negative" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color: #FF6B6B; stop-opacity: 0.3" />
+                <stop offset="100%" style="stop-color: #FF6B6B; stop-opacity: 0" />
+            </linearGradient>
+            <linearGradient id="sparkline-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color: #C2EE6B; stop-opacity: 0.3" />
+                <stop offset="100%" style="stop-color: #C2EE6B; stop-opacity: 0" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <div class="dashboard">
+        <div class="dashboard__content">
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 GLOBAL HEADER
+                 ═══════════════════════════════════════════════════════════════ -->
+            <header class="header">
+                <div class="header__top">
+                    <div class="header__brand">
+                        <span class="header__logo">🗞️</span>
+                        <h1 class="header__title">Newsletter Command</h1>
+                        <span class="last-updated" id="last-updated"
+                            style="display: none; font-size: 12px; color: var(--color-text-muted); align-self: center;">
+                            Updated <span id="last-updated-time">—</span>
+                        </span>
+                    </div>
+                    <div class="header__actions">
+                        <button class="btn btn--ghost btn--sm" id="import-btn">
+                            <span>📤</span>
+                            Import Data
+                        </button>
+                        <button class="btn btn--primary btn--sm" id="beehiiv-sync-btn"
+                            title="Sync data from Beehiiv API">
+                            <span id="beehiiv-sync-icon">🔄</span>
+                            <span id="beehiiv-sync-label">Sync</span>
+                        </button>
+                        <button class="btn btn--ghost btn--sm" id="export-btn">
+                            <span>📥</span>
+                            Export
+                        </button>
+                        <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode">
+                            <span class="theme-toggle__icon">☀️</span>
+                            <span class="theme-toggle__label">Light</span>
+                        </button>
+                        <button class="btn btn--ghost btn--sm" id="settings-btn">
+                            <span>⚙️</span>
+                            Settings
+                        </button>
+                    </div>
+                </div>
+
+                <div class="header__controls">
+                    <!-- Newsletter Selector -->
+                    <div class="dropdown" id="newsletter-dropdown">
+                        <button class="dropdown__trigger" aria-haspopup="true" aria-expanded="false">
+                            <span>Roko's Basilisk</span>
+                            <svg class="dropdown__trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </button>
+                        <div class="dropdown__menu">
+                            <button class="dropdown__item is-active">Roko's Basilisk</button>
+                            <button class="dropdown__item" id="add-newsletter-btn">+ Add Newsletter</button>
+                        </div>
+                    </div>
+
+                    <!-- Date Range Selector -->
+                    <div class="pill-toggle" id="date-range-toggle" role="tablist">
+                        <button class="pill-toggle__item" role="tab" data-range="30d">30d</button>
+                        <button class="pill-toggle__item is-active" role="tab" data-range="90d"
+                            aria-selected="true">90d</button>
+                    </div>
+                </div>
+
+                <!-- Active Date Range Display (shows when custom range is selected) -->
+                <div class="date-range-display" id="date-range-display" style="display: none;">
+                    <span class="date-range-display__icon">📅</span>
+                    <span class="date-range-display__text" id="date-range-text">Jan 1, 2026 - Jan 31, 2026</span>
+                    <button class="date-range-display__edit" id="date-range-edit" title="Edit date range">✏️</button>
+                </div>
+            </header>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 INSIGHT BAR — Auto-generated insights
+                 ═══════════════════════════════════════════════════════════════ -->
+            <div id="insight-bar" class="insight-bar" style="display: none;">
+                <span class="insight-bar__icon">📊</span>
+                <span class="insight-bar__text">Import data to see insights</span>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 SECTION TABS — Overview / Engagement / Growth
+                 ═══════════════════════════════════════════════════════════════ -->
+            <nav class="section-tabs" id="section-tabs">
+                <button class="section-tabs__item is-active" data-tab="overview">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <rect x="1" y="1" width="6" height="6" rx="1" />
+                        <rect x="9" y="1" width="6" height="6" rx="1" />
+                        <rect x="1" y="9" width="6" height="6" rx="1" />
+                        <rect x="9" y="9" width="6" height="6" rx="1" />
+                    </svg>
+                    Overview
+                </button>
+                <button class="section-tabs__item" data-tab="engagement">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <circle cx="8" cy="8" r="6" />
+                        <path d="M8 4v4l3 2" />
+                    </svg>
+                    Engagement
+                </button>
+                <button class="section-tabs__item" data-tab="growth">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M2 12l4-4 3 2 5-6" />
+                        <path d="M11 4h3v3" />
+                    </svg>
+                    Growth
+                </button>
+                <span class="section-tabs__indicator"></span>
+            </nav>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 TAB: OVERVIEW
+                 ═══════════════════════════════════════════════════════════════ -->
+            <div class="tab-panel tab-panel--active" id="tab-overview">
+
+                <!-- Hero Metric -->
+                <section class="hero-metric">
+                    <div class="dashboard-card dashboard-card--hero">
+                        <div class="hero-metric__content">
+                            <div class="hero-metric__main">
+                                <span class="hero-metric__label">Active Subscribers</span>
+                                <div class="hero-metric__value-row">
+                                    <span class="hero-metric__value" id="hero-subscribers">0</span>
+                                    <span class="delta-pill delta-pill--neutral">
+                                        <svg class="delta-pill__arrow" viewBox="0 0 12 12" width="12" height="12">
+                                            <path d="M6 2v8M6 2l3 3M6 2L3 5" stroke="currentColor" stroke-width="1.5"
+                                                fill="none" stroke-linecap="round" />
+                                        </svg>
+                                        0%
+                                    </span>
+                                </div>
+                                <span class="hero-metric__comparison text-muted">No data imported</span>
+                                <div class="pill-toggle pill-toggle--xs hero-period-toggle"
+                                    data-kpi="active-subscribers">
+                                    <button class="pill-toggle__item is-active" data-period="monthly">M</button>
+                                    <button class="pill-toggle__item" data-period="weekly">W</button>
+                                </div>
+                            </div>
+                            <div class="hero-metric__sparkline" id="hero-sparkline">
+                                <!-- Sparkline will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- KPI Grid -->
+                <section class="kpi-grid" id="kpi-grid">
+                    <div class="dashboard-card kpi-card" data-metric="open-rate" data-accent="blue">
+                        <div class="kpi-card__icon-circle" style="--accent: var(--color-accent-blue);">
+                            <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <rect x="2" y="4" width="16" height="12" rx="2" />
+                                <path d="M2 4l8 6 8-6" />
+                            </svg>
+                        </div>
+                        <div class="kpi-card__header">
+                            <span class="kpi-card__label">Open Rate</span>
+                            <div class="pill-toggle pill-toggle--xs kpi-period-toggle" data-kpi="open-rate">
+                                <button class="pill-toggle__item is-active" data-period="monthly">M</button>
+                                <button class="pill-toggle__item" data-period="weekly">W</button>
+                            </div>
+                        </div>
+                        <div class="kpi-card__body">
+                            <span class="kpi-card__value">0%</span>
+                            <span class="delta-pill delta-pill--neutral">
+                                <svg class="delta-pill__arrow" viewBox="0 0 12 12" width="12" height="12">
+                                    <path d="M6 2v8" stroke="currentColor" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" />
+                                </svg>
+                                0%
+                            </span>
+                        </div>
+                        <span class="kpi-card__comparison">vs. previous period</span>
+                        <div class="kpi-card__sparkline" data-metric="open-rate"></div>
+                    </div>
+
+                    <div class="dashboard-card kpi-card" data-metric="ctr" data-accent="purple">
+                        <div class="kpi-card__icon-circle" style="--accent: var(--color-accent-purple);">
+                            <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <circle cx="10" cy="10" r="7" />
+                                <circle cx="10" cy="10" r="3" />
+                                <circle cx="10" cy="10" r="1" fill="currentColor" />
+                            </svg>
+                        </div>
+                        <div class="kpi-card__header">
+                            <span class="kpi-card__label">Click-Through Rate</span>
+                            <div class="pill-toggle pill-toggle--xs kpi-period-toggle" data-kpi="ctr">
+                                <button class="pill-toggle__item is-active" data-period="monthly">M</button>
+                                <button class="pill-toggle__item" data-period="weekly">W</button>
+                            </div>
+                        </div>
+                        <div class="kpi-card__body">
+                            <span class="kpi-card__value">0%</span>
+                            <span class="delta-pill delta-pill--neutral">
+                                <svg class="delta-pill__arrow" viewBox="0 0 12 12" width="12" height="12">
+                                    <path d="M6 2v8" stroke="currentColor" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" />
+                                </svg>
+                                0%
+                            </span>
+                        </div>
+                        <span class="kpi-card__comparison">vs. previous period</span>
+                        <div class="kpi-card__sparkline" data-metric="ctr"></div>
+                    </div>
+
+                    <div class="dashboard-card kpi-card" data-metric="verified-ctr" data-accent="green">
+                        <div class="kpi-card__icon-circle" style="--accent: var(--color-accent-green);">
+                            <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M5 10l3 3 7-7" />
+                                <rect x="2" y="2" width="16" height="16" rx="3" />
+                            </svg>
+                        </div>
+                        <div class="kpi-card__header">
+                            <span class="kpi-card__label">Verified CTR</span>
+                            <div class="pill-toggle pill-toggle--xs kpi-period-toggle" data-kpi="verified-ctr">
+                                <button class="pill-toggle__item is-active" data-period="monthly">M</button>
+                                <button class="pill-toggle__item" data-period="weekly">W</button>
+                            </div>
+                        </div>
+                        <div class="kpi-card__body">
+                            <span class="kpi-card__value">0%</span>
+                            <span class="delta-pill delta-pill--neutral">
+                                <svg class="delta-pill__arrow" viewBox="0 0 12 12" width="12" height="12">
+                                    <path d="M6 2v8" stroke="currentColor" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" />
+                                </svg>
+                                0%
+                            </span>
+                        </div>
+                        <span class="kpi-card__comparison">vs. previous period</span>
+                        <div class="kpi-card__sparkline" data-metric="verified-ctr"></div>
+                    </div>
+
+                    <div class="dashboard-card kpi-card" data-metric="delivery-rate" data-accent="cyan">
+                        <div class="kpi-card__icon-circle" style="--accent: var(--color-accent-cyan);">
+                            <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M3 10l4 4 10-10" />
+                            </svg>
+                        </div>
+                        <div class="kpi-card__header">
+                            <span class="kpi-card__label">Delivery Rate</span>
+                            <div class="pill-toggle pill-toggle--xs kpi-period-toggle" data-kpi="delivery-rate">
+                                <button class="pill-toggle__item is-active" data-period="monthly">M</button>
+                                <button class="pill-toggle__item" data-period="weekly">W</button>
+                            </div>
+                        </div>
+                        <div class="kpi-card__body">
+                            <span class="kpi-card__value">99.1%</span>
+                            <span class="delta-pill delta-pill--neutral">
+                                <svg class="delta-pill__arrow" viewBox="0 0 12 12" width="12" height="12">
+                                    <path d="M6 2v8" stroke="currentColor" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" />
+                                </svg>
+                                0%
+                            </span>
+                        </div>
+                        <span class="kpi-card__comparison">vs. previous period</span>
+                        <div class="kpi-card__sparkline" data-metric="delivery-rate"></div>
+                    </div>
+
+                    <div class="dashboard-card kpi-card" data-metric="unique-clicks" data-accent="orange">
+                        <div class="kpi-card__icon-circle" style="--accent: var(--color-accent-orange);">
+                            <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M10 2v6l4 2" />
+                                <circle cx="10" cy="10" r="8" />
+                            </svg>
+                        </div>
+                        <div class="kpi-card__header">
+                            <span class="kpi-card__label">Unique Clicks</span>
+                            <div class="pill-toggle pill-toggle--xs kpi-period-toggle" data-kpi="unique-clicks">
+                                <button class="pill-toggle__item is-active" data-period="monthly">M</button>
+                                <button class="pill-toggle__item" data-period="weekly">W</button>
+                            </div>
+                        </div>
+                        <div class="kpi-card__body">
+                            <span class="kpi-card__value">0</span>
+                            <span class="delta-pill delta-pill--neutral">
+                                <svg class="delta-pill__arrow" viewBox="0 0 12 12" width="12" height="12">
+                                    <path d="M6 2v8" stroke="currentColor" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" />
+                                </svg>
+                                0
+                            </span>
+                        </div>
+                        <span class="kpi-card__comparison">vs. previous period</span>
+                        <div class="kpi-card__sparkline" data-metric="unique-clicks"></div>
+                    </div>
+
+                    <div class="dashboard-card kpi-card" data-metric="verified-clicks" data-accent="pink">
+                        <div class="kpi-card__icon-circle" style="--accent: var(--color-accent-pink);">
+                            <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M14 2l-8 8 3 3 8-8-3-3z" />
+                                <path d="M9 13l-4 4" />
+                                <circle cx="5" cy="17" r="1" fill="currentColor" />
+                            </svg>
+                        </div>
+                        <div class="kpi-card__header">
+                            <span class="kpi-card__label">Verified Clicks</span>
+                            <div class="pill-toggle pill-toggle--xs kpi-period-toggle" data-kpi="verified-clicks">
+                                <button class="pill-toggle__item is-active" data-period="monthly">M</button>
+                                <button class="pill-toggle__item" data-period="weekly">W</button>
+                            </div>
+                        </div>
+                        <div class="kpi-card__body">
+                            <span class="kpi-card__value">0</span>
+                            <span class="delta-pill delta-pill--neutral">
+                                <svg class="delta-pill__arrow" viewBox="0 0 12 12" width="12" height="12">
+                                    <path d="M6 2v8" stroke="currentColor" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" />
+                                </svg>
+                                0
+                            </span>
+                        </div>
+                        <span class="kpi-card__comparison">vs. previous period</span>
+                        <div class="kpi-card__sparkline" data-metric="verified-clicks"></div>
+                    </div>
+                </section>
+
+                <!-- Performance Highlights -->
+                <section id="performance-highlights" style="display: none;"></section>
+
+                <!-- Performance Chart -->
+                <section class="charts-section">
+                    <div class="glass-card glass-card--no-hover">
+                        <div class="chart-container">
+                            <div class="chart-container__header">
+                                <h2 class="chart-container__title">Verified Unique Clicks</h2>
+                                <div class="pill-toggle pill-toggle--sm chart-period-toggle">
+                                    <button class="pill-toggle__item is-active" data-period="monthly">Monthly</button>
+                                    <button class="pill-toggle__item" data-period="weekly">Weekly</button>
+                                    <button class="pill-toggle__item pill-toggle__item--custom" data-period="custom"
+                                        style="display: none;">Custom</button>
+                                </div>
+                                <div class="chart-container__toggle">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper" id="performance-chart">
+                                <canvas id="performance-canvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div><!-- /tab-overview -->
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 TAB: ENGAGEMENT
+                 ═══════════════════════════════════════════════════════════════ -->
+            <div class="tab-panel" id="tab-engagement">
+
+                <!-- Engagement Summary Stats -->
+                <section class="engagement-stats">
+                    <div class="dashboard-card engagement-stat-card" data-stat="opens">
+                        <div class="engagement-stat-card__icon" style="--accent: #6C9FFF;">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <rect x="2" y="4" width="16" height="12" rx="2" />
+                                <path d="M2 4l8 6 8-6" />
+                            </svg>
+                        </div>
+                        <div class="engagement-stat-card__content">
+                            <span class="engagement-stat-card__value" id="engagement-total-opens">0</span>
+                            <span class="engagement-stat-card__label">Total Opens</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-card engagement-stat-card" data-stat="clicks">
+                        <div class="engagement-stat-card__icon" style="--accent: #C2EE6B;">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M10 2v6l4 2" />
+                                <circle cx="10" cy="10" r="8" />
+                            </svg>
+                        </div>
+                        <div class="engagement-stat-card__content">
+                            <span class="engagement-stat-card__value" id="engagement-total-clicks">0</span>
+                            <span class="engagement-stat-card__label">Total Clicks</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-card engagement-stat-card" data-stat="posts">
+                        <div class="engagement-stat-card__icon" style="--accent: #E879F9;">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <rect x="3" y="2" width="14" height="16" rx="2" />
+                                <path d="M7 6h6M7 10h6M7 14h4" />
+                            </svg>
+                        </div>
+                        <div class="engagement-stat-card__content">
+                            <span class="engagement-stat-card__value" id="engagement-total-posts">0</span>
+                            <span class="engagement-stat-card__label">Posts Sent</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Engagement Grid: Donut + Leaderboard -->
+                <section class="engagement-grid">
+                    <!-- Donut Chart: Open Rate Breakdown -->
+                    <div class="glass-card glass-card--no-hover engagement-grid__donut">
+                        <div class="chart-container">
+                            <div class="chart-container__header">
+                                <h2 class="chart-container__title">Open Rate</h2>
+                                <span class="chart-container__badge">Overall</span>
+                            </div>
+                            <div class="donut-wrapper">
+                                <div class="donut-chart-area">
+                                    <canvas id="engagement-donut-canvas"></canvas>
+                                    <div class="donut-center-text">
+                                        <span class="donut-center-text__value" id="donut-center-value">0%</span>
+                                        <span class="donut-center-text__label">Open Rate</span>
+                                    </div>
+                                </div>
+                                <div class="donut-legend" id="donut-legend">
+                                    <div class="donut-legend__item">
+                                        <span class="donut-legend__color" style="--dot-color: #C2EE6B;"></span>
+                                        <span class="donut-legend__label">Opened</span>
+                                        <span class="donut-legend__value" id="donut-opened-pct">0%</span>
+                                    </div>
+                                    <div class="donut-legend__item">
+                                        <span class="donut-legend__color"
+                                            style="--dot-color: rgba(255,255,255,0.12);"></span>
+                                        <span class="donut-legend__label">Unopened</span>
+                                        <span class="donut-legend__value" id="donut-unopened-pct">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="donut-target">
+                                <span class="donut-target__label">On track for</span>
+                                <span class="donut-target__value">50% target</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Posts Leaderboard -->
+                    <div class="glass-card glass-card--no-hover engagement-grid__leaderboard">
+                        <div class="chart-container">
+                            <div class="chart-container__header">
+                                <h2 class="chart-container__title">🏆 Top Posts</h2>
+                                <span class="chart-container__badge">By Open Rate</span>
+                            </div>
+                            <div class="leaderboard" id="leaderboard">
+                                <div class="leaderboard__empty">
+                                    <span class="leaderboard__empty-icon">📭</span>
+                                    <span class="leaderboard__empty-text">Import data to see top posts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Engagement Over Time: Horizontal Bar Chart -->
+                <section class="charts-section">
+                    <div class="glass-card glass-card--no-hover">
+                        <div class="chart-container">
+                            <div class="chart-container__header">
+                                <h2 class="chart-container__title">Clicks by Post</h2>
+                                <span class="chart-container__badge">Top 10</span>
+                            </div>
+                            <div class="chart-wrapper chart-wrapper--lg" id="clicks-bar-chart">
+                                <canvas id="clicks-bar-canvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div><!-- /tab-engagement -->
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 TAB: GROWTH
+                 ═══════════════════════════════════════════════════════════════ -->
+            <div class="tab-panel" id="tab-growth">
+                <section class="charts-section">
+                    <div class="charts-grid">
+                        <!-- Subscriber Growth Chart -->
+                        <div class="glass-card glass-card--no-hover">
+                            <div class="chart-container">
+                                <div class="chart-container__header">
+                                    <h2 class="chart-container__title">Subscriber Growth</h2>
+                                    <div class="pill-toggle pill-toggle--sm chart-period-toggle">
+                                        <button class="pill-toggle__item is-active"
+                                            data-period="monthly">Monthly</button>
+                                        <button class="pill-toggle__item pill-toggle__item--custom" data-period="custom"
+                                            style="display: none;">Custom</button>
+                                    </div>
+                                </div>
+                                <div class="legend">
+                                    <div class="legend__item">
+                                        <span class="legend__color legend__color--primary"></span>
+                                        <span>Subscribed</span>
+                                    </div>
+                                    <div class="legend__item">
+                                        <span class="legend__color legend__color--negative"></span>
+                                        <span>Unsubscribed</span>
+                                    </div>
+                                    <div class="legend__item">
+                                        <span class="legend__color legend__color--dashed"></span>
+                                        <span>Net Growth</span>
+                                    </div>
+                                </div>
+                                <div class="chart-wrapper" id="growth-chart">
+                                    <canvas id="growth-canvas"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Audience Evolution Chart -->
+                        <div class="glass-card glass-card--no-hover">
+                            <div class="chart-container">
+                                <div class="chart-container__header">
+                                    <h2 class="chart-container__title">Active Subscribers Over Time</h2>
+                                    <div class="pill-toggle pill-toggle--sm">
+                                        <button class="pill-toggle__item is-active"
+                                            data-period="monthly">Monthly</button>
+                                    </div>
+                                </div>
+                                <div class="chart-wrapper" id="audience-chart">
+                                    <canvas id="audience-canvas"></canvas>
+                                </div>
+                                <div class="annotations-bar">
+                                    <span class="annotations-bar__label">📌</span>
+                                    <span class="annotation">
+                                        <span class="annotation__date">May 15:</span>
+                                        Featured in Morning Brew
+                                    </span>
+                                    <span class="annotation">
+                                        <span class="annotation__date">Jul 3:</span>
+                                        Paid campaign launch
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div><!-- /tab-growth -->
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 POSTS TABLE
+                 ═══════════════════════════════════════════════════════════════ -->
+            <section class="posts-section">
+                <div class="glass-card glass-card--no-hover" id="posts-table-container">
+                    <div class="posts-section__header">
+                        <h2 class="posts-section__title">📬 Posts</h2>
+                        <div class="posts-section__controls">
+                            <div class="posts-search">
+                                <span class="posts-search__icon">🔍</span>
+                                <input type="text" class="posts-search__input" id="posts-search"
+                                    placeholder="Search posts...">
+                            </div>
+                            <select class="posts-page-size" id="posts-page-size">
+                                <option value="10">10 per page</option>
+                                <option value="25">25 per page</option>
+                                <option value="50">50 per page</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="posts-table-wrapper">
+                        <table class="posts-table">
+                            <thead>
+                                <tr>
+                                    <th class="posts-table__header" data-sort="title">Title</th>
+                                    <th class="posts-table__header posts-table__header--desc" data-sort="send_date">Date
+                                    </th>
+                                    <th class="posts-table__header" data-sort="recipients">Recipients</th>
+                                    <th class="posts-table__header" data-sort="opens">Opens</th>
+                                    <th class="posts-table__header" data-sort="clicks">Clicks</th>
+                                    <th class="posts-table__header" data-sort="click_rate">CTR</th>
+                                </tr>
+                            </thead>
+                            <tbody class="posts-table__body">
+                                <tr class="posts-table__row posts-table__row--empty">
+                                    <td colspan="6" class="posts-table__cell posts-table__cell--empty">
+                                        No data imported yet. Import a CSV to see posts.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="posts-pagination">
+                        <div class="posts-pagination__info">Showing 0-0 of 0</div>
+                        <div class="posts-pagination__buttons">
+                            <button class="posts-pagination__btn" data-action="prev" disabled>← Prev</button>
+                            <button class="posts-pagination__btn" data-action="next" disabled>Next →</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MODALS
+         ═══════════════════════════════════════════════════════════════ -->
+
+    <!-- Import Data Modal -->
+    <div class="modal-overlay" id="import-modal">
+        <div class="modal">
+            <div class="modal__header">
+                <h3 class="modal__title">📤 Import Data</h3>
+                <button class="modal__close" data-action="cancel">✕</button>
+            </div>
+            <div class="modal__body">
+                <!-- File format selector -->
+                <div class="import-format-selector">
+                    <label class="import-format-option is-selected" data-format="xlsx">
+                        <span class="import-format-option__icon">📊</span>
+                        <span class="import-format-option__label">XLSX</span>
+                        <span class="import-format-option__badge">Recommended</span>
+                    </label>
+                    <label class="import-format-option" data-format="csv">
+                        <span class="import-format-option__icon">📄</span>
+                        <span class="import-format-option__label">CSV</span>
+                        <span class="import-format-option__badge">Legacy</span>
+                    </label>
+                </div>
+
+                <!-- Import warnings banner (hidden by default) -->
+                <div class="import-warnings" id="import-warnings" style="display: none;">
+                    <span class="import-warnings__icon">⚠️</span>
+                    <span class="import-warnings__text"></span>
+                </div>
+
+                <div class="dropzone">
+                    <div class="dropzone__icon">📊</div>
+                    <div class="dropzone__text">Drop your Excel file here</div>
+                    <div class="dropzone__hint">or click to browse • Multi-tab XLSX format</div>
+                    <input type="file" class="dropzone__input" accept=".xlsx,.csv">
+                </div>
+                <div class="modal-divider">OR</div>
+                <div class="api-section">
+                    <strong>Connect to Beehiiv API</strong>
+                    <span class="api-section__badge">Coming Soon</span>
+                    <p style="margin-top: 8px; font-size: 12px; color: var(--color-text-muted);">
+                        Auto-sync your newsletter data directly from Beehiiv.
+                    </p>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn--ghost" data-action="cancel">Cancel</button>
+                <button class="btn btn--primary" data-action="import">Import Data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Newsletter Modal -->
+    <div class="modal-overlay" id="add-newsletter-modal">
+        <div class="modal">
+            <div class="modal__header">
+                <h3 class="modal__title">➕ Add Newsletter</h3>
+                <button class="modal__close" data-action="cancel">✕</button>
+            </div>
+            <div class="modal__body">
+                <div class="form-group">
+                    <label class="form-label">Newsletter Name</label>
+                    <input type="text" class="form-input" id="newsletter-name"
+                        placeholder="e.g., The Morning Brew Clone">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Theme Color</label>
+                    <div class="theme-picker">
+                        <div class="theme-picker__option is-selected" data-theme="basilisk" title="Basilisk"></div>
+                        <div class="theme-picker__option" data-theme="ocean" title="Ocean"></div>
+                        <div class="theme-picker__option" data-theme="sunset" title="Sunset"></div>
+                        <div class="theme-picker__option" data-theme="forest" title="Forest"></div>
+                        <div class="theme-picker__option" data-theme="royal" title="Royal"></div>
+                        <div class="theme-picker__option" data-theme="gold" title="Gold"></div>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <div class="preview-card__label">Preview</div>
+                    <div class="preview-card__content">
+                        <span class="preview-card__icon">🗞️</span>
+                        <div>
+                            <div class="preview-card__title">New Newsletter</div>
+                            <div class="preview-card__subtitle">Newsletter Analytics</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn--ghost" data-action="cancel">Cancel</button>
+                <button class="btn btn--primary" data-action="create">Create Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SETTINGS MODAL
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal modal--settings">
+            <div class="modal__header">
+                <h3 class="modal__title">⚙️ Settings</h3>
+                <button class="modal__close" data-action="close">✕</button>
+            </div>
+            <div class="modal__body">
+                <div class="settings-section">
+                    <h4 class="settings-section__title">Newsletter Publication IDs</h4>
+                    <p class="settings-section__desc">
+                        Configure Beehiiv publication IDs for your newsletters. Default newsletters
+                        are pre-configured via <code>.env</code>. New newsletters need a publication ID
+                        to enable Sync.
+                    </p>
+                    <div class="settings-newsletter-list"></div>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn--ghost" data-action="close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         DATE PICKER MODAL
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="date-picker-modal">
+        <div class="modal date-picker">
+            <div class="modal__header">
+                <h2 class="modal__title">📅 Select Date Range</h2>
+                <button class="modal__close" data-action="cancel">×</button>
+            </div>
+            <div class="modal__body">
+                <div class="date-picker__nav">
+                    <button class="date-picker__nav-btn" data-nav="prev">←</button>
+                    <button class="date-picker__nav-btn" data-nav="next">→</button>
+                </div>
+                <div class="date-picker__calendars"></div>
+                <div class="date-picker__presets">
+                    <span class="date-picker__presets-label">Quick select:</span>
+                    <button class="date-picker__preset" data-preset="7d">Last 7 days</button>
+                    <button class="date-picker__preset" data-preset="30d">Last 30 days</button>
+                    <button class="date-picker__preset" data-preset="90d">Last 90 days</button>
+                    <button class="date-picker__preset" data-preset="month">This month</button>
+                    <button class="date-picker__preset" data-preset="ytd">Year to date</button>
+                </div>
+                <div class="date-picker__summary">Select a date range</div>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn--ghost" data-action="cancel">Cancel</button>
+                <button class="btn btn--primary" data-action="apply">Apply Range</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         EXPORT MODAL
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="export-modal">
+        <div class="modal">
+            <div class="modal__header">
+                <h2 class="modal__title">📥 Export Dashboard</h2>
+                <button class="modal__close" data-action="cancel">×</button>
+            </div>
+            <div class="modal__body">
+                <div class="export-info">
+                    <span class="export-info__icon">ℹ️</span>
+                    <span class="export-info__text">Export your analytics data and visualizations</span>
+                </div>
+
+                <div class="export-cards">
+                    <div class="export-card" data-type="png">
+                        <span class="export-card__icon">🖼️</span>
+                        <span class="export-card__title">PNG</span>
+                        <span class="export-card__desc">Dashboard screenshot</span>
+                    </div>
+                    <div class="export-card" data-type="pdf">
+                        <span class="export-card__icon">📄</span>
+                        <span class="export-card__title">PDF</span>
+                        <span class="export-card__desc">Full report with charts</span>
+                    </div>
+                    <div class="export-card" data-type="csv">
+                        <span class="export-card__icon">📊</span>
+                        <span class="export-card__title">CSV</span>
+                        <span class="export-card__desc">Raw data spreadsheet</span>
+                    </div>
+                </div>
+
+                <div class="export-progress" style="display: none;">
+                    <div class="export-progress__track">
+                        <div class="export-progress__bar"></div>
+                    </div>
+                    <div class="export-status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         KEYBOARD SHORTCUTS MODAL
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="shortcuts-modal">
+        <div class="modal modal--sm">
+            <div class="modal__header">
+                <h2 class="modal__title">⌨️ Keyboard Shortcuts</h2>
+                <button class="modal__close" onclick="KeyboardShortcuts.closeHelp()">×</button>
+            </div>
+            <div class="modal__body">
+                <div class="shortcuts-list">
+                    <div class="shortcut-item">
+                        <kbd>?</kbd>
+                        <span>Show this help</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>E</kbd>
+                        <span>Open Export</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>I</kbd>
+                        <span>Open Import</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>T</kbd>
+                        <span>Toggle Theme</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>1</kbd>—<kbd>2</kbd>
+                        <span>Date Range (30d/90d)</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Esc</kbd>
+                        <span>Close Modal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MOBILE BOTTOM NAVIGATION
+         ═══════════════════════════════════════════════════════════════ -->
+    <nav class="mobile-nav" id="mobile-nav">
+        <ul class="mobile-nav__items">
+            <li>
+                <button class="mobile-nav__item is-active" id="mobile-nav-dashboard">
+                    <span class="mobile-nav__icon">📊</span>
+                    <span class="mobile-nav__label">Dashboard</span>
+                </button>
+            </li>
+            <li>
+                <button class="mobile-nav__item" id="mobile-nav-export">
+                    <span class="mobile-nav__icon">📥</span>
+                    <span class="mobile-nav__label">Export</span>
+                </button>
+            </li>
+            <li>
+                <button class="mobile-nav__item" id="mobile-nav-import">
+                    <span class="mobile-nav__icon">📤</span>
+                    <span class="mobile-nav__label">Import</span>
+                </button>
+            </li>
+            <li>
+                <button class="mobile-nav__item" id="mobile-nav-theme">
+                    <span class="mobile-nav__icon">🌙</span>
+                    <span class="mobile-nav__label">Theme</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- Export Libraries -->
+    <script type="module">
+        import * as ms from 'https://cdn.jsdelivr.net/npm/modern-screenshot@4.4.39/dist/index.mjs';
+        window.modernScreenshot = ms;
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- FileSaver.js for reliable cross-browser downloads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <!-- SheetJS for XLSX parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- Application Scripts -->
+    <script src="scripts/xlsx-parser.js"></script>
+    <script src="scripts/csv-parser.js"></script>
+    <script src="scripts/beehiiv-api.js"></script>
+    <script src="scripts/newsletter-manager.js"></script>
+    <script src="scripts/theme-manager.js"></script>
+    <script src="scripts/date-picker.js"></script>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/components.js"></script>
+    <script src="scripts/charts.js"></script>
+    <script src="scripts/import-modal.js"></script>
+    <script src="scripts/add-newsletter-modal.js"></script>
+    <script src="scripts/settings-modal.js"></script>
+    <script src="scripts/kpi-detail-modal.js"></script>
+    <script src="scripts/download-service.js"></script>
+    <script src="scripts/export-modal.js"></script>
+    <script src="scripts/posts-table.js"></script>
+    <script src="scripts/insight-engine.js"></script>
+    <script src="scripts/insight-bar.js"></script>
+    <script src="scripts/performance-highlights.js"></script>
+    <script src="scripts/keyboard-shortcuts.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+
+</html>

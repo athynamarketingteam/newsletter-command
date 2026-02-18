@@ -1,0 +1,223 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   INSIGHT BAR STYLES
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.insight-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: linear-gradient(135deg,
+            rgba(194, 238, 107, 0.1) 0%,
+            rgba(92, 5, 60, 0.2) 100%);
+    border: 1px solid rgba(194, 238, 107, 0.2);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+    backdrop-filter: blur(10px);
+    animation: insightFadeIn 0.3s ease-out;
+}
+
+@keyframes insightFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.insight-bar__icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.insight-bar__text {
+    flex: 1;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text);
+    line-height: 1.4;
+}
+
+.insight-bar__action {
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-accent);
+    color: var(--color-bg-primary);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.insight-bar__action:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TYPE VARIANTS
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.insight-bar--positive {
+    background: linear-gradient(135deg,
+            rgba(194, 238, 107, 0.15) 0%,
+            rgba(194, 238, 107, 0.05) 100%);
+    border-color: rgba(194, 238, 107, 0.3);
+}
+
+.insight-bar--warning {
+    background: linear-gradient(135deg,
+            rgba(255, 179, 71, 0.15) 0%,
+            rgba(255, 179, 71, 0.05) 100%);
+    border-color: rgba(255, 179, 71, 0.3);
+}
+
+.insight-bar--warning .insight-bar__text {
+    color: #FFB347;
+}
+
+.insight-bar--negative {
+    background: linear-gradient(135deg,
+            rgba(255, 107, 107, 0.15) 0%,
+            rgba(255, 107, 107, 0.05) 100%);
+    border-color: rgba(255, 107, 107, 0.3);
+}
+
+.insight-bar--negative .insight-bar__text {
+    color: var(--color-negative);
+}
+
+.insight-bar--info {
+    background: linear-gradient(135deg,
+            rgba(99, 179, 237, 0.15) 0%,
+            rgba(99, 179, 237, 0.05) 100%);
+    border-color: rgba(99, 179, 237, 0.3);
+}
+
+.insight-bar--neutral {
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.05) 0%,
+            rgba(255, 255, 255, 0.02) 100%);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.insight-bar--neutral .insight-bar__text {
+    color: var(--color-text-secondary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RANKING BADGES (for posts table)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 var(--space-1);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    margin-right: var(--space-2);
+}
+
+.rank-badge--gold {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #1a1a2e;
+}
+
+.rank-badge--silver {
+    background: linear-gradient(135deg, #C0C0C0 0%, #A0A0A0 100%);
+    color: #1a1a2e;
+}
+
+.rank-badge--bronze {
+    background: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
+    color: white;
+}
+
+.rank-badge--normal {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text-secondary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BASELINE COMPARISON
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.baseline-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-left: var(--space-2);
+}
+
+.baseline-indicator__value {
+    font-weight: 600;
+}
+
+.baseline-indicator--above .baseline-indicator__value {
+    color: var(--color-positive);
+}
+
+.baseline-indicator--below .baseline-indicator__value {
+    color: var(--color-negative);
+}
+
+.baseline-indicator--neutral .baseline-indicator__value {
+    color: var(--color-text-secondary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ANOMALY MARKERS
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.anomaly-marker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    font-size: 10px;
+    margin-left: var(--space-1);
+}
+
+.anomaly-marker--high {
+    background: rgba(194, 238, 107, 0.2);
+    border: 1px solid var(--color-positive);
+}
+
+.anomaly-marker--low {
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid var(--color-negative);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .insight-bar {
+        padding: var(--space-2) var(--space-3);
+        gap: var(--space-2);
+    }
+
+    .insight-bar__text {
+        font-size: var(--text-xs);
+    }
+
+    .insight-bar__action {
+        padding: var(--space-1) var(--space-2);
+        font-size: 10px;
+    }
+}

@@ -1,0 +1,188 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   DATE PICKER STYLES — Newsletter Analytics Dashboard
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DATE PICKER MODAL
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.date-picker {
+    max-width: 680px;
+}
+
+.date-picker__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+}
+
+.date-picker__nav-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    font-size: 18px;
+    transition: var(--transition-colors);
+}
+
+.date-picker__nav-btn:hover {
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CALENDARS CONTAINER
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.date-picker__calendars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+}
+
+@media (max-width: 600px) {
+    .date-picker__calendars {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CALENDAR
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.calendar__header {
+    text-align: center;
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-md);
+    color: var(--color-text);
+}
+
+.calendar__days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    text-align: center;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+}
+
+.calendar__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.calendar__day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-colors);
+    color: var(--color-text);
+}
+
+.calendar__day:hover:not(.calendar__day--disabled):not(.calendar__day--empty) {
+    background: var(--color-surface);
+}
+
+.calendar__day--empty {
+    cursor: default;
+}
+
+.calendar__day--disabled {
+    color: var(--color-text-muted);
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.calendar__day--today {
+    font-weight: var(--font-weight-semibold);
+    border: 1px solid var(--color-primary);
+}
+
+.calendar__day--start,
+.calendar__day--end {
+    background: var(--color-primary) !important;
+    color: var(--color-background) !important;
+    font-weight: var(--font-weight-semibold);
+}
+
+.calendar__day--start {
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+
+.calendar__day--end {
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.calendar__day--start.calendar__day--end {
+    border-radius: var(--radius-sm);
+}
+
+.calendar__day--in-range {
+    background: rgba(194, 238, 107, 0.2);
+    border-radius: 0;
+}
+
+[data-theme="light"] .calendar__day--in-range {
+    background: rgba(110, 53, 203, 0.10);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   PRESETS
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.date-picker__presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-surface-border);
+}
+
+.date-picker__presets-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    width: 100%;
+    margin-bottom: var(--space-xs);
+}
+
+.date-picker__preset {
+    padding: var(--space-xs) var(--space-sm);
+    background: transparent;
+    border: var(--border-width) solid var(--color-surface-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: var(--transition-colors);
+}
+
+.date-picker__preset:hover {
+    background: var(--color-surface);
+    border-color: var(--color-primary);
+    color: var(--color-text);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SUMMARY
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.date-picker__summary {
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+}

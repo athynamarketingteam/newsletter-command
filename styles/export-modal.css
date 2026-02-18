@@ -1,0 +1,138 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   EXPORT MODAL STYLES — Newsletter Analytics Dashboard
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Export Cards Grid */
+.export-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.export-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid var(--color-surface-border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-all);
+}
+
+.export-card:hover {
+    border-color: var(--color-primary);
+    background: rgba(194, 238, 107, 0.08);
+    transform: translateY(-2px);
+}
+
+.export-card:active {
+    transform: translateY(0);
+}
+
+.export-card__icon {
+    font-size: 36px;
+    line-height: 1;
+}
+
+.export-card__title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.export-card__desc {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+/* Progress Section */
+.export-progress {
+    margin-top: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-surface-border);
+}
+
+.export-progress__track {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-sm);
+}
+
+.export-progress__bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--color-primary) 0%, #9ACD32 100%);
+    border-radius: var(--radius-full);
+    transition: width 0.3s ease;
+}
+
+.export-status {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    text-align: center;
+}
+
+/* Export Info */
+.export-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: rgba(194, 238, 107, 0.1);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+}
+
+.export-info__icon {
+    font-size: 18px;
+}
+
+.export-info__text {
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .export-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .export-card {
+        flex-direction: row;
+        text-align: left;
+        gap: var(--space-md);
+    }
+
+    .export-card__content {
+        flex: 1;
+    }
+
+    .export-card__desc {
+        text-align: left;
+    }
+}
+
+/* Light theme adjustments */
+[data-theme="light"] .export-card {
+    background: rgba(28, 30, 27, 0.02);
+}
+
+[data-theme="light"] .export-card:hover {
+    background: rgba(109, 40, 217, 0.06);
+}
+
+[data-theme="light"] .export-progress__track {
+    background: rgba(28, 30, 27, 0.06);
+}
+
+[data-theme="light"] .export-info {
+    background: rgba(109, 40, 217, 0.06);
+}

@@ -1,0 +1,273 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   KPI DETAIL MODAL STYLES — Newsletter Analytics Dashboard
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.kpi-detail-modal {
+    max-width: 700px;
+    --kpi-color: #C2EE6B;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   HEADER
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.kpi-detail-modal__title-wrap {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.kpi-detail-modal__icon {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.kpi-detail-modal__title {
+    margin: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   HERO VALUE
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.kpi-detail-modal__hero {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-md);
+}
+
+.kpi-detail-modal__value {
+    font-size: 56px;
+    font-weight: var(--font-weight-bold);
+    color: var(--kpi-color);
+    line-height: 1;
+}
+
+.kpi-detail-modal__delta {
+    font-size: var(--font-size-sm);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.kpi-detail-modal__delta.delta--positive {
+    color: var(--color-positive);
+    background: rgba(194, 238, 107, 0.15);
+}
+
+.kpi-detail-modal__delta.delta--negative {
+    color: var(--color-negative);
+    background: rgba(255, 107, 107, 0.15);
+}
+
+.kpi-detail-modal__delta.delta--neutral {
+    color: var(--color-text-muted);
+}
+
+.kpi-detail-modal__description {
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-xl) 0;
+    font-size: var(--font-size-md);
+    line-height: 1.5;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CHART SECTION
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.kpi-detail-modal__chart-section {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.kpi-detail-modal__chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+}
+
+.kpi-detail-modal__chart-header h3 {
+    margin: 0;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+}
+
+.kpi-detail-modal__chart {
+    height: 220px;
+    position: relative;
+}
+
+/* Period toggle small variant */
+.pill-toggle--sm {
+    padding: 2px;
+}
+
+.pill-toggle--sm .pill-toggle__item {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-xs);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   INSIGHTS
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.kpi-detail-modal__insights {
+    margin-bottom: var(--space-xl);
+}
+
+.kpi-detail-modal__insights h3 {
+    margin: 0 0 var(--space-md) 0;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+}
+
+.kpi-detail-modal__tips {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.kpi-detail-modal__tips li {
+    padding: var(--space-sm) var(--space-md);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    position: relative;
+    padding-left: calc(var(--space-md) + 20px);
+}
+
+.kpi-detail-modal__tips li::before {
+    content: '→';
+    position: absolute;
+    left: var(--space-md);
+    color: var(--kpi-color);
+    font-weight: bold;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   STATS GRID
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.kpi-detail-modal__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+}
+
+@media (max-width: 600px) {
+    .kpi-detail-modal__stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.kpi-detail-modal__stat {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    text-align: center;
+}
+
+.kpi-detail-modal__stat-label {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.kpi-detail-modal__stat-value {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.kpi-detail-modal__stat-value--high {
+    color: var(--color-positive);
+}
+
+.kpi-detail-modal__stat-value--low {
+    color: var(--color-negative);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CLICKABLE CARDS
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.kpi-card {
+    transition: var(--transition-all);
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.kpi-card::after {
+    content: '↗';
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-sm);
+    font-size: 12px;
+    color: var(--color-text-muted);
+    opacity: 0;
+    transition: var(--transition-opacity);
+}
+
+.kpi-card:hover::after {
+    opacity: 1;
+}
+
+.hero-metric .glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elevated);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   LIGHT THEME ADJUSTMENTS
+   ───────────────────────────────────────────────────────────────────────────── */
+
+[data-theme="light"] .kpi-detail-modal {
+    --kpi-color: #6E35CB;
+}
+
+[data-theme="light"] .kpi-detail-modal__chart-section {
+    background: rgba(109, 40, 217, 0.03);
+}
+
+[data-theme="light"] .kpi-detail-modal__tips li {
+    background: rgba(28, 30, 27, 0.03);
+}
+
+[data-theme="light"] .kpi-detail-modal__stat {
+    background: rgba(28, 30, 27, 0.03);
+}
+
+[data-theme="light"] .kpi-detail-modal__stat-value--high {
+    color: #0D9B68;
+}
+
+[data-theme="light"] .kpi-detail-modal__stat-value--low {
+    color: #DC2626;
+}
+
+[data-theme="light"] .kpi-detail-modal__delta {
+    background: rgba(109, 40, 217, 0.08);
+}
+
+[data-theme="light"] .kpi-detail-modal__delta.delta--positive {
+    background: rgba(13, 155, 104, 0.12);
+    color: #087A53;
+}
+
+[data-theme="light"] .kpi-detail-modal__delta.delta--negative {
+    background: rgba(220, 38, 38, 0.10);
+    color: #B91C1C;
+}
