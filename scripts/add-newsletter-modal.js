@@ -14,6 +14,9 @@ const AddNewsletterModal = (function () {
 
         setupThemePicker();
         setupButtons();
+
+        // Populate dropdown with all registered newsletters on page load
+        updateDropdown();
     }
 
     function open() {
