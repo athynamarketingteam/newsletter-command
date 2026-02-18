@@ -1,4 +1,4 @@
-const { beehiivFetch, resolvePublicationId, setCorsHeaders } = require('./_helpers');
+const { beehiivFetch, resolvePublicationId, setCorsHeaders } = require('../_helpers');
 
 module.exports = async function handler(req, res) {
     setCorsHeaders(res);
