@@ -403,13 +403,7 @@ const Charts = (function () {
                 cutout: '72%',
                 plugins: {
                     legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function (item) {
-                                return item.label + ': ' + item.raw.toFixed(1) + '%';
-                            }
-                        }
-                    }
+                    tooltip: { enabled: false }
                 },
                 animation: {
                     animateRotate: true,
