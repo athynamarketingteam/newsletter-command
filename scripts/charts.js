@@ -382,6 +382,11 @@ const Charts = (function () {
         if (openedPct) openedPct.textContent = opened.toFixed(1) + '%';
         if (unopenedPct) unopenedPct.textContent = unopened.toFixed(1) + '%';
 
+        // Sync the "Opened" legend dot color with the chart primary color
+        const openedDot = document.getElementById('donut-opened-dot');
+        const primaryColorForDot = getThemeColor('--color-chart-primary', '#C2EE6B');
+        if (openedDot) openedDot.style.setProperty('--dot-color', primaryColorForDot);
+
         const light = isLightTheme();
         const primaryColor = getThemeColor('--color-chart-primary', '#C2EE6B');
         const emptyColor = light ? 'rgba(28, 30, 27, 0.08)' : 'rgba(255, 255, 255, 0.08)';

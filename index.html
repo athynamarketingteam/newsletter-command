@@ -97,19 +97,41 @@
                 </div>
 
                 <div class="header__controls">
-                    <!-- Newsletter Selector -->
-                    <div class="dropdown" id="newsletter-dropdown">
-                        <button class="dropdown__trigger" aria-haspopup="true" aria-expanded="false"
-                            aria-label="Select newsletter">
-                            <span>Roko's Basilisk</span>
-                            <svg class="dropdown__trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M6 9l6 6 6-6" />
-                            </svg>
-                        </button>
-                        <div class="dropdown__menu">
-                            <button class="dropdown__item is-active">Roko's Basilisk</button>
-                            <button class="dropdown__item" id="add-newsletter-btn">+ Add Newsletter</button>
+                    <div class="newsletter-selector-group">
+                        <!-- Newsletter Selector -->
+                        <div class="dropdown" id="newsletter-dropdown">
+                            <button class="dropdown__trigger" aria-haspopup="true" aria-expanded="false"
+                                aria-label="Select newsletter">
+                                <span>Roko's Basilisk</span>
+                                <svg class="dropdown__trigger-icon" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                            <div class="dropdown__menu">
+                                <button class="dropdown__item is-active">Roko's Basilisk</button>
+                                <button class="dropdown__item" id="add-newsletter-btn">+ Add Newsletter</button>
+                            </div>
+                        </div>
+
+                        <!-- Newsletter Color Swatch -->
+                        <div class="color-swatch-wrapper">
+                            <button class="color-swatch" id="newsletter-color-swatch" title="Change newsletter color"
+                                aria-label="Change newsletter color">
+                            </button>
+                            <div class="color-picker-popup" id="color-picker-popup">
+                                <div class="color-picker-popup__label">Theme Color</div>
+                                <div class="color-picker-popup__swatches" id="color-picker-swatches"></div>
+                                <div class="color-picker-popup__divider"></div>
+                                <div class="color-picker-popup__hex-row">
+                                    <span class="color-picker-popup__hash">#</span>
+                                    <input type="text" class="color-picker-popup__hex-input" id="color-picker-hex"
+                                        maxlength="6" placeholder="FF6B6B" spellcheck="false"
+                                        aria-label="Custom hex color" />
+                                    <button class="color-picker-popup__apply" id="color-picker-apply"
+                                        title="Apply hex color">&#10003;</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -482,7 +504,8 @@
                                 </div>
                                 <div class="donut-legend" id="donut-legend">
                                     <div class="donut-legend__item">
-                                        <span class="donut-legend__color" style="--dot-color: #C2EE6B;"></span>
+                                        <span class="donut-legend__color" id="donut-opened-dot"
+                                            style="--dot-color: #C2EE6B;"></span>
                                         <span class="donut-legend__label">Opened</span>
                                         <span class="donut-legend__value" id="donut-opened-pct">0%</span>
                                     </div>

@@ -163,6 +163,19 @@ const NewsletterManager = (function () {
             activeNewsletterIndex = index;
             save();
             applyTheme(newsletters[index].theme);
+            // Apply custom color override if set
+            const nl = newsletters[index];
+            if (nl.customColor) {
+                const root = document.documentElement;
+                const isLight = root.getAttribute('data-theme') === 'light';
+                if (!isLight) {
+                    root.style.setProperty('--color-primary', nl.customColor);
+                    root.style.setProperty('--color-positive', nl.customColor);
+                    root.style.setProperty('--color-chart-primary', nl.customColor);
+                    root.style.setProperty('--color-surface-border', nl.customColor + '26');
+                    root.style.setProperty('--color-glow', nl.customColor + '80');
+                }
+            }
             return newsletters[index];
         }
         return null;
