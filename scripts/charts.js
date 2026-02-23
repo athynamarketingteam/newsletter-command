@@ -408,18 +408,6 @@ const Charts = (function () {
                             label: function (item) {
                                 return item.label + ': ' + item.raw.toFixed(1) + '%';
                             }
-                        },
-                        // Hide center text when tooltip is active so tooltip isn't obscured
-                        external: function (context) {
-                            const centerText = document.querySelector('.donut-center-text');
-                            if (!centerText) return;
-                            if (context.tooltip.opacity > 0) {
-                                centerText.style.opacity = '0';
-                                centerText.style.transition = 'opacity 0.15s ease';
-                            } else {
-                                centerText.style.opacity = '1';
-                                centerText.style.transition = 'opacity 0.25s ease';
-                            }
                         }
                     }
                 },
