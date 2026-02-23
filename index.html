@@ -72,25 +72,25 @@
                         </span>
                     </div>
                     <div class="header__actions">
-                        <button class="btn btn--ghost btn--sm" id="import-btn">
-                            <span>📤</span>
+                        <button class="btn btn--ghost btn--sm" id="import-btn" aria-label="Import Data">
+                            <span aria-hidden="true">📤</span>
                             Import Data
                         </button>
                         <button class="btn btn--primary btn--sm" id="beehiiv-sync-btn"
-                            title="Sync data from Beehiiv API">
-                            <span id="beehiiv-sync-icon">🔄</span>
+                            title="Sync data from Beehiiv API" aria-label="Sync data from Beehiiv API">
+                            <span id="beehiiv-sync-icon" aria-hidden="true">🔄</span>
                             <span id="beehiiv-sync-label">Sync</span>
                         </button>
-                        <button class="btn btn--ghost btn--sm" id="export-btn">
-                            <span>📥</span>
+                        <button class="btn btn--ghost btn--sm" id="export-btn" aria-label="Export dashboard data">
+                            <span aria-hidden="true">📥</span>
                             Export
                         </button>
                         <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode">
                             <span class="theme-toggle__icon">☀️</span>
                             <span class="theme-toggle__label">Light</span>
                         </button>
-                        <button class="btn btn--ghost btn--sm" id="settings-btn">
-                            <span>⚙️</span>
+                        <button class="btn btn--ghost btn--sm" id="settings-btn" aria-label="Open settings">
+                            <span aria-hidden="true">⚙️</span>
                             Settings
                         </button>
                     </div>
@@ -99,7 +99,8 @@
                 <div class="header__controls">
                     <!-- Newsletter Selector -->
                     <div class="dropdown" id="newsletter-dropdown">
-                        <button class="dropdown__trigger" aria-haspopup="true" aria-expanded="false">
+                        <button class="dropdown__trigger" aria-haspopup="true" aria-expanded="false"
+                            aria-label="Select newsletter">
                             <span>Roko's Basilisk</span>
                             <svg class="dropdown__trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
@@ -122,9 +123,10 @@
 
                 <!-- Active Date Range Display (shows when custom range is selected) -->
                 <div class="date-range-display" id="date-range-display" style="display: none;">
-                    <span class="date-range-display__icon">📅</span>
+                    <span class="date-range-display__icon" aria-hidden="true">📅</span>
                     <span class="date-range-display__text" id="date-range-text">Jan 1, 2026 - Jan 31, 2026</span>
-                    <button class="date-range-display__edit" id="date-range-edit" title="Edit date range">✏️</button>
+                    <button class="date-range-display__edit" id="date-range-edit" title="Edit date range"
+                        aria-label="Edit date range">✏️</button>
                 </div>
             </header>
 
@@ -132,7 +134,7 @@
                  INSIGHT BAR — Auto-generated insights
                  ═══════════════════════════════════════════════════════════════ -->
             <div id="insight-bar" class="insight-bar" style="display: none;">
-                <span class="insight-bar__icon">📊</span>
+                <span class="insight-bar__icon" aria-hidden="true">📊</span>
                 <span class="insight-bar__text">Import data to see insights</span>
             </div>
 
@@ -193,8 +195,8 @@
                                 <span class="hero-metric__comparison text-muted">No data imported</span>
                                 <div class="pill-toggle pill-toggle--xs hero-period-toggle"
                                     data-kpi="active-subscribers">
-                                    <button class="pill-toggle__item is-active" data-period="monthly">M</button>
-                                    <button class="pill-toggle__item" data-period="weekly">W</button>
+                                    <button class="pill-toggle__item is-active" data-period="monthly">Monthly</button>
+                                    <button class="pill-toggle__item" data-period="weekly">Weekly</button>
                                 </div>
                             </div>
                             <div class="hero-metric__sparkline" id="hero-sparkline">
@@ -610,11 +612,13 @@
                         <h2 class="posts-section__title">📬 Posts</h2>
                         <div class="posts-section__controls">
                             <div class="posts-search">
-                                <span class="posts-search__icon">🔍</span>
+                                <span class="posts-search__icon" aria-hidden="true">🔍</span>
+                                <label for="posts-search" class="sr-only">Search posts</label>
                                 <input type="text" class="posts-search__input" id="posts-search"
-                                    placeholder="Search posts...">
+                                    placeholder="Search posts..." aria-label="Search posts">
                             </div>
-                            <select class="posts-page-size" id="posts-page-size">
+                            <label for="posts-page-size" class="sr-only">Posts per page</label>
+                            <select class="posts-page-size" id="posts-page-size" aria-label="Posts per page">
                                 <option value="10">10 per page</option>
                                 <option value="25">25 per page</option>
                                 <option value="50">50 per page</option>
@@ -646,8 +650,10 @@
                     <div class="posts-pagination">
                         <div class="posts-pagination__info">Showing 0-0 of 0</div>
                         <div class="posts-pagination__buttons">
-                            <button class="posts-pagination__btn" data-action="prev" disabled>← Prev</button>
-                            <button class="posts-pagination__btn" data-action="next" disabled>Next →</button>
+                            <button class="posts-pagination__btn" data-action="prev" disabled
+                                aria-label="Previous page">← Prev</button>
+                            <button class="posts-pagination__btn" data-action="next" disabled
+                                aria-label="Next page">Next →</button>
                         </div>
                     </div>
                 </div>
@@ -665,7 +671,7 @@
         <div class="modal">
             <div class="modal__header">
                 <h3 class="modal__title">📤 Import Data</h3>
-                <button class="modal__close" data-action="cancel">✕</button>
+                <button class="modal__close" data-action="cancel" aria-label="Close import modal">✕</button>
             </div>
             <div class="modal__body">
                 <!-- File format selector -->
@@ -715,11 +721,11 @@
         <div class="modal">
             <div class="modal__header">
                 <h3 class="modal__title">➕ Add Newsletter</h3>
-                <button class="modal__close" data-action="cancel">✕</button>
+                <button class="modal__close" data-action="cancel" aria-label="Close add newsletter modal">✕</button>
             </div>
             <div class="modal__body">
                 <div class="form-group">
-                    <label class="form-label">Newsletter Name</label>
+                    <label class="form-label" for="newsletter-name">Newsletter Name</label>
                     <input type="text" class="form-input" id="newsletter-name"
                         placeholder="e.g., The Morning Brew Clone">
                 </div>
@@ -759,7 +765,7 @@
         <div class="modal modal--settings">
             <div class="modal__header">
                 <h3 class="modal__title">⚙️ Settings</h3>
-                <button class="modal__close" data-action="close">✕</button>
+                <button class="modal__close" data-action="close" aria-label="Close settings modal">✕</button>
             </div>
             <div class="modal__body">
                 <div class="settings-section">
@@ -785,12 +791,12 @@
         <div class="modal date-picker">
             <div class="modal__header">
                 <h2 class="modal__title">📅 Select Date Range</h2>
-                <button class="modal__close" data-action="cancel">×</button>
+                <button class="modal__close" data-action="cancel" aria-label="Close date picker">×</button>
             </div>
             <div class="modal__body">
                 <div class="date-picker__nav">
-                    <button class="date-picker__nav-btn" data-nav="prev">←</button>
-                    <button class="date-picker__nav-btn" data-nav="next">→</button>
+                    <button class="date-picker__nav-btn" data-nav="prev" aria-label="Previous month">←</button>
+                    <button class="date-picker__nav-btn" data-nav="next" aria-label="Next month">→</button>
                 </div>
                 <div class="date-picker__calendars"></div>
                 <div class="date-picker__presets">
@@ -817,7 +823,7 @@
         <div class="modal">
             <div class="modal__header">
                 <h2 class="modal__title">📥 Export Dashboard</h2>
-                <button class="modal__close" data-action="cancel">×</button>
+                <button class="modal__close" data-action="cancel" aria-label="Close export modal">×</button>
             </div>
             <div class="modal__body">
                 <div class="export-info">
@@ -896,29 +902,29 @@
     <!-- ═══════════════════════════════════════════════════════════════
          MOBILE BOTTOM NAVIGATION
          ═══════════════════════════════════════════════════════════════ -->
-    <nav class="mobile-nav" id="mobile-nav">
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
         <ul class="mobile-nav__items">
             <li>
-                <button class="mobile-nav__item is-active" id="mobile-nav-dashboard">
-                    <span class="mobile-nav__icon">📊</span>
+                <button class="mobile-nav__item is-active" id="mobile-nav-dashboard" aria-label="Dashboard">
+                    <span class="mobile-nav__icon" aria-hidden="true">📊</span>
                     <span class="mobile-nav__label">Dashboard</span>
                 </button>
             </li>
             <li>
-                <button class="mobile-nav__item" id="mobile-nav-export">
-                    <span class="mobile-nav__icon">📥</span>
+                <button class="mobile-nav__item" id="mobile-nav-export" aria-label="Export data">
+                    <span class="mobile-nav__icon" aria-hidden="true">📥</span>
                     <span class="mobile-nav__label">Export</span>
                 </button>
             </li>
             <li>
-                <button class="mobile-nav__item" id="mobile-nav-import">
-                    <span class="mobile-nav__icon">📤</span>
+                <button class="mobile-nav__item" id="mobile-nav-import" aria-label="Import data">
+                    <span class="mobile-nav__icon" aria-hidden="true">📤</span>
                     <span class="mobile-nav__label">Import</span>
                 </button>
             </li>
             <li>
-                <button class="mobile-nav__item" id="mobile-nav-theme">
-                    <span class="mobile-nav__icon">🌙</span>
+                <button class="mobile-nav__item" id="mobile-nav-theme" aria-label="Toggle theme">
+                    <span class="mobile-nav__icon" aria-hidden="true">🌙</span>
                     <span class="mobile-nav__label">Theme</span>
                 </button>
             </li>

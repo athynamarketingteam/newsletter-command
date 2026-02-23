@@ -112,6 +112,36 @@
     margin-bottom: var(--space-2xl);
 }
 
+/* Hero card border — match KPI cards */
+.dashboard-card--hero {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-lg, 12px);
+    padding: var(--space-lg, 20px);
+    background: rgba(255, 255, 255, 0.02);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card--hero:hover {
+    border-color: rgba(194, 238, 107, 0.3);
+    box-shadow:
+        0 0 16px rgba(194, 238, 107, 0.08),
+        0 0 32px rgba(194, 238, 107, 0.04),
+        inset 0 0 24px rgba(194, 238, 107, 0.02);
+}
+
+[data-theme="light"] .dashboard-card--hero {
+    border-color: rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.015);
+}
+
+[data-theme="light"] .dashboard-card--hero:hover {
+    border-color: rgba(76, 140, 30, 0.25);
+    box-shadow:
+        0 0 16px rgba(76, 140, 30, 0.06),
+        0 0 32px rgba(76, 140, 30, 0.03);
+    background: rgba(0, 0, 0, 0.025);
+}
+
 .hero-metric__content {
     display: flex;
     align-items: center;

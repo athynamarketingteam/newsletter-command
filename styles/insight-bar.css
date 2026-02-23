@@ -5,14 +5,15 @@
 .insight-bar {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-3) var(--space-4);
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
     background: linear-gradient(135deg,
             rgba(194, 238, 107, 0.1) 0%,
             rgba(92, 5, 60, 0.2) 100%);
     border: 1px solid rgba(194, 238, 107, 0.2);
     border-radius: var(--radius-lg);
-    margin-bottom: var(--space-4);
+    margin-bottom: 24px;
+    margin-top: 8px;
     backdrop-filter: blur(10px);
     animation: insightFadeIn 0.3s ease-out;
 }
@@ -32,6 +33,13 @@
 .insight-bar__icon {
     font-size: 1.25rem;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin-right: 4px;
+    line-height: 1;
 }
 
 .insight-bar__text {

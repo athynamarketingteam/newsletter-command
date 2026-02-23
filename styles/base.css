@@ -353,3 +353,47 @@ small {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-primary);
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   REDUCED MOTION — Accessibility
+   Disable animations and transitions for users who prefer reduced motion.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   FOCUS-VISIBLE — Keyboard-only focus rings
+   Show focus rings only for keyboard navigation, not mouse clicks.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible) {
+    outline: none;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}

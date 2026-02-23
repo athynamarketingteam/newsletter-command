@@ -144,6 +144,12 @@
     min-width: 0;
 }
 
+/* Wider padding for hero toggle with full text labels */
+.hero-period-toggle .pill-toggle__item {
+    padding: 4px 10px;
+    font-size: 11px;
+}
+
 .pill-toggle--xs .pill-toggle__item.is-active {
     background: var(--color-primary);
     color: var(--color-text-on-primary);
@@ -300,6 +306,7 @@
     font-size: var(--font-size-sm);
     color: var(--color-text-secondary);
     text-align: left;
+    cursor: pointer;
     transition: var(--transition-colors);
 }
 
