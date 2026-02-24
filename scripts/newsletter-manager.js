@@ -400,6 +400,38 @@ const NewsletterManager = (function () {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
+    // CLEAR XLSX DATA (memory + localStorage)
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Clear XLSX data for a single newsletter (both memory and localStorage)
+     */
+    function clearXLSXData(id) {
+        const newsletter = get(id);
+        if (newsletter) {
+            delete newsletter.xlsxData;
+            delete newsletter.data;
+            delete newsletter.dataSource;
+        }
+        try {
+            localStorage.removeItem(`newsletter_data_${id}`);
+            localStorage.removeItem(`newsletter_posts_${id}`);
+            localStorage.removeItem(`newsletter_growth_${id}`);
+            localStorage.removeItem(`newsletter_audience_${id}`);
+            localStorage.removeItem(`newsletter_meta_${id}`);
+            localStorage.removeItem(`lastUpdated_${id}`);
+        } catch (e) { /* ignore */ }
+    }
+
+    /**
+     * Clear XLSX data for ALL newsletters
+     */
+    function clearAllXLSXData() {
+        newsletters.forEach(nl => clearXLSXData(nl.id));
+        save();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
     // PERSISTENCE
     // ─────────────────────────────────────────────────────────────────────────
 
@@ -460,6 +492,8 @@ const NewsletterManager = (function () {
         getData,
         setXLSXData,
         getXLSXData,
+        clearXLSXData,
+        clearAllXLSXData,
         hasXLSXData,
         applyTheme,
         getThemes,

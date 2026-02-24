@@ -376,25 +376,15 @@
             return;
         }
 
-        // Clear data stores for each newsletter
-        newsletters.forEach(nl => {
-            const id = nl.id;
-            try {
-                localStorage.removeItem(`newsletter_data_${id}`);
-                localStorage.removeItem(`newsletter_posts_${id}`);
-                localStorage.removeItem(`newsletter_growth_${id}`);
-                localStorage.removeItem(`newsletter_audience_${id}`);
-                localStorage.removeItem(`newsletter_meta_${id}`);
-                localStorage.removeItem(`lastUpdated_${id}`);
-            } catch (e) { /* ignore */ }
-        });
+        // Clear both in-memory caches AND localStorage for every newsletter
+        NewsletterManager.clearAllXLSXData();
 
         // Reset in-memory AppState
         delete AppState.xlsxData;
         delete AppState.baselines;
         delete AppState.customRange;
 
-        // Clear DataService caches if available
+        // Clear DataService caches
         if (window.DataService) {
             if (DataService.clearAll) DataService.clearAll();
             else if (DataService.clearDateRange) DataService.clearDateRange();
@@ -895,7 +885,9 @@
 
         const newsletter = NewsletterManager.getActive();
         if (!newsletter) {
-            // Use mock data
+            // Clear stale state from previous newsletter
+            delete AppState.xlsxData;
+            if (window.DataService && DataService.clearDateRange) DataService.clearDateRange();
             Charts.update(AppState);
             Components.KPICards.init();
             Components.HeroMetric.init();
@@ -908,6 +900,11 @@
             updateDashboardWithXLSXData(xlsxData);
             return;
         }
+
+        // No XLSX data for this newsletter — clear stale state from previous newsletter
+        delete AppState.xlsxData;
+        delete AppState.baselines;
+        if (window.DataService && DataService.clearDateRange) DataService.clearDateRange();
 
         // Fallback to legacy CSV data
         const rawData = NewsletterManager.getData(newsletter.id);
