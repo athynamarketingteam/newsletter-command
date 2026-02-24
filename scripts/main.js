@@ -386,8 +386,8 @@
 
         // Clear DataService caches
         if (window.DataService) {
-            if (DataService.clearAll) DataService.clearAll();
-            else if (DataService.clearDateRange) DataService.clearDateRange();
+            if (DataService.clearXLSXData) DataService.clearXLSXData();
+            if (DataService.clearDateRange) DataService.clearDateRange();
         }
 
         // Hide "Last Updated" indicator
@@ -887,7 +887,10 @@
         if (!newsletter) {
             // Clear stale state from previous newsletter
             delete AppState.xlsxData;
-            if (window.DataService && DataService.clearDateRange) DataService.clearDateRange();
+            if (window.DataService) {
+                if (DataService.clearXLSXData) DataService.clearXLSXData();
+                if (DataService.clearDateRange) DataService.clearDateRange();
+            }
             Charts.update(AppState);
             Components.KPICards.init();
             Components.HeroMetric.init();
@@ -904,7 +907,10 @@
         // No XLSX data for this newsletter — clear stale state from previous newsletter
         delete AppState.xlsxData;
         delete AppState.baselines;
-        if (window.DataService && DataService.clearDateRange) DataService.clearDateRange();
+        if (window.DataService) {
+            if (DataService.clearXLSXData) DataService.clearXLSXData();
+            if (DataService.clearDateRange) DataService.clearDateRange();
+        }
 
         // Fallback to legacy CSV data
         const rawData = NewsletterManager.getData(newsletter.id);

@@ -410,6 +410,10 @@ const DataService = (function () {
 
         clearDateRange: function () {
             dateRangeFilter = null;
+        },
+
+        clearXLSXData: function () {
+            xlsxData = null;
         }
     };
 })();
