@@ -143,6 +143,12 @@
             exportBtn.addEventListener('click', () => ExportModal.open());
         }
 
+        // Clear Data button
+        const clearDataBtn = document.getElementById('clear-data-btn');
+        if (clearDataBtn) {
+            clearDataBtn.addEventListener('click', handleClearData);
+        }
+
         // Date range toggle
         const dateToggle = document.getElementById('date-range-toggle');
         if (dateToggle) {
@@ -359,6 +365,63 @@
     }
 
     // ─────────────────────────────────────────────────────────────────────────
+    // CLEAR CACHED DATA
+    // ─────────────────────────────────────────────────────────────────────────
+
+    function handleClearData() {
+        const newsletters = NewsletterManager.getAll();
+        const count = newsletters.length;
+
+        if (!confirm(`Clear all cached dashboard data for ${count} newsletter${count !== 1 ? 's' : ''}?\n\nThis will reset every metric to zero. Newsletter configurations (names, themes, colors) will be kept.\n\nYou can re-sync or re-import data afterward.`)) {
+            return;
+        }
+
+        // Clear data stores for each newsletter
+        newsletters.forEach(nl => {
+            const id = nl.id;
+            try {
+                localStorage.removeItem(`newsletter_data_${id}`);
+                localStorage.removeItem(`newsletter_posts_${id}`);
+                localStorage.removeItem(`newsletter_growth_${id}`);
+                localStorage.removeItem(`newsletter_audience_${id}`);
+                localStorage.removeItem(`newsletter_meta_${id}`);
+                localStorage.removeItem(`lastUpdated_${id}`);
+            } catch (e) { /* ignore */ }
+        });
+
+        // Reset in-memory AppState
+        delete AppState.xlsxData;
+        delete AppState.baselines;
+        delete AppState.customRange;
+
+        // Clear DataService caches if available
+        if (window.DataService) {
+            if (DataService.clearAll) DataService.clearAll();
+            else if (DataService.clearDateRange) DataService.clearDateRange();
+        }
+
+        // Hide "Last Updated" indicator
+        const lastUpdatedEl = document.getElementById('last-updated');
+        if (lastUpdatedEl) lastUpdatedEl.style.display = 'none';
+
+        // Refresh the dashboard (will render with zeros)
+        refreshDashboard();
+
+        // Brief visual feedback on the button
+        const btn = document.getElementById('clear-data-btn');
+        if (btn) {
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span aria-hidden="true">✅</span> Cleared';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            }, 2000);
+        }
+
+        console.log(`🗑️ Cleared cached data for ${count} newsletter(s)`);
+    }
+
     // CUSTOM DATE RANGE HANDLING
     // ─────────────────────────────────────────────────────────────────────────
 
