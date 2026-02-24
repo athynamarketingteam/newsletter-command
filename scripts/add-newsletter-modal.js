@@ -148,9 +148,19 @@ const AddNewsletterModal = (function () {
             // Newsletter selection listeners
             menu.querySelectorAll('[data-newsletter-id]').forEach(item => {
                 item.addEventListener('click', () => {
-                    NewsletterManager.setActive(item.dataset.newsletterId);
+                    const targetId = item.dataset.newsletterId;
+                    console.log(`📰 Switching newsletter to: ${targetId}`);
+                    NewsletterManager.setActive(targetId);
                     updateDropdown();
-                    if (window.Dashboard) Dashboard.refresh();
+                    // Ensure dashboard refresh happens — use setTimeout to run after DOM updates
+                    setTimeout(() => {
+                        if (window.Dashboard && Dashboard.refresh) {
+                            console.log('📰 Calling Dashboard.refresh() after newsletter switch');
+                            Dashboard.refresh();
+                        } else {
+                            console.warn('📰 Dashboard.refresh not available!');
+                        }
+                    }, 0);
                 });
             });
 

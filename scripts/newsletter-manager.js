@@ -439,7 +439,8 @@ const NewsletterManager = (function () {
         try {
             const toStore = newsletters.map(n => ({
                 ...n,
-                data: undefined // Don't store data in registry
+                data: undefined,      // Don't store data in registry
+                xlsxData: undefined   // Don't store xlsxData in registry (stored separately per-newsletter)
             }));
             localStorage.setItem(STORAGE_KEY, JSON.stringify({
                 newsletters: toStore,
