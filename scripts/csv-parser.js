@@ -327,8 +327,10 @@ const CSVParser = (function () {
             ctr: avgCtr,
             verifiedCtr: avgVerifiedCtr,
             deliveryRate: avgDeliveryRate,
-            uniqueClicks: totalClicks,
-            verifiedClicks: totalVerifiedClicks
+            uniqueClicks: rows.length > 0 ? Math.round((totalClicks / rows.length) * 100) / 100 : 0,
+            verifiedClicks: rows.length > 0 ? Math.round((totalVerifiedClicks / rows.length) * 100) / 100 : 0,
+            totalUniqueClicks: totalClicks,
+            totalVerifiedClicks: totalVerifiedClicks
         };
     }
 
@@ -356,8 +358,8 @@ const CSVParser = (function () {
             ctr: delta('ctr'),
             verifiedCtr: delta('verifiedCtr'),
             deliveryRate: delta('deliveryRate'),
-            uniqueClicks: delta('uniqueClicks', true),
-            verifiedClicks: delta('verifiedClicks', true)
+            uniqueClicks: delta('uniqueClicks'),
+            verifiedClicks: delta('verifiedClicks')
         };
     }
 

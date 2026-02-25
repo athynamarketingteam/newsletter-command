@@ -64,7 +64,7 @@ const KPIDetailModal = (function () {
         },
         'Unique Clicks': {
             icon: '👆',
-            description: 'Total number of unique subscribers who clicked.',
+            description: 'Average unique subscribers who clicked per post.',
             color: '#FFB74D',
             dataKey: 'uniqueClicks',
             format: 'number',
@@ -76,7 +76,7 @@ const KPIDetailModal = (function () {
         },
         'Verified Clicks': {
             icon: '🔐',
-            description: 'Unique clicks verified as human, not bots.',
+            description: 'Average verified human clicks per post.',
             color: '#E91E63',
             dataKey: 'verifiedClicks',
             format: 'number',
@@ -407,6 +407,12 @@ const KPIDetailModal = (function () {
                 const aggregated = XLSXParser.aggregatePosts(posts);
                 const value = aggregated[dataKey];
                 if (value === null || value === undefined) return 'N/A';
+                // For click count metrics, show per-post average (Mariana Protocol)
+                const isClickMetric = dataKey === 'uniqueClicks' || dataKey === 'verifiedClicks';
+                if (isClickMetric) {
+                    const avgValue = aggregated.count > 0 ? aggregated[dataKey] / aggregated.count : 0;
+                    return Math.round(avgValue).toLocaleString() + ' avg/post';
+                }
                 return format === 'percent' ? value.toFixed(1) + '%' : Math.round(value).toLocaleString();
             }
 
@@ -495,9 +501,12 @@ const KPIDetailModal = (function () {
             return;
         }
 
+        const isClickMetric = config.dataKey === 'uniqueClicks' || config.dataKey === 'verifiedClicks';
+
         const high = Math.max(...values);
         const low = Math.min(...values);
         const avg = values.reduce((a, b) => a + b, 0) / values.length;
+        const total = values.reduce((a, b) => a + b, 0);
 
         const format = (v) => config.format === 'percent'
             ? v.toFixed(1) + '%'
@@ -505,7 +514,17 @@ const KPIDetailModal = (function () {
 
         overlay.querySelector('.kpi-detail-modal__stat-value--high').textContent = format(high);
         overlay.querySelector('.kpi-detail-modal__stat-value--low').textContent = format(low);
-        overlay.querySelector('.kpi-detail-modal__stat-value--avg').textContent = format(avg);
+
+        // For click metrics: show Total in the 'Average' slot (since avg is the hero)
+        const avgLabelEl = overlay.querySelectorAll('.kpi-detail-modal__stat-label')[2];
+        const avgValueEl = overlay.querySelector('.kpi-detail-modal__stat-value--avg');
+        if (isClickMetric) {
+            if (avgLabelEl) avgLabelEl.textContent = 'Total';
+            avgValueEl.textContent = Math.round(total).toLocaleString();
+        } else {
+            if (avgLabelEl) avgLabelEl.textContent = 'Average';
+            avgValueEl.textContent = format(avg);
+        }
         overlay.querySelector('.kpi-detail-modal__stat-value--count').textContent = values.length;
     }
 

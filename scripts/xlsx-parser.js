@@ -324,6 +324,14 @@ const XLSXParser = (function () {
             ? Math.round((summed.delivered / summed.sent) * 10000) / 100
             : null;
 
+        // Per-post averages for click metrics (Mariana Protocol: average, not sum)
+        summed.avgUniqueClicks = summed.count > 0
+            ? Math.round((summed.uniqueClicks / summed.count) * 100) / 100
+            : 0;
+        summed.avgVerifiedClicks = summed.count > 0
+            ? Math.round((summed.verifiedClicks / summed.count) * 100) / 100
+            : 0;
+
         return summed;
     }
 

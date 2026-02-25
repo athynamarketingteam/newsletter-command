@@ -604,8 +604,10 @@
                 ctr: aggregated.ctr,
                 verifiedCtr: aggregated.verifiedCtr,
                 deliveryRate: aggregated.deliveryRate,
-                uniqueClicks: aggregated.uniqueClicks,
-                verifiedClicks: aggregated.verifiedClicks,
+                uniqueClicks: aggregated.avgUniqueClicks,
+                verifiedClicks: aggregated.avgVerifiedClicks,
+                totalUniqueClicks: aggregated.uniqueClicks,
+                totalVerifiedClicks: aggregated.verifiedClicks,
                 activeSubscribers: latestAudience
             }, xlsxDeltas);
 
@@ -752,8 +754,8 @@
             ctr: makeDelta('ctr'),
             verifiedCtr: makeDelta('verifiedCtr'),
             deliveryRate: makeDelta('deliveryRate'),
-            uniqueClicks: makeDelta('uniqueClicks', true),
-            verifiedClicks: makeDelta('verifiedClicks', true)
+            uniqueClicks: makeDelta('avgUniqueClicks'),
+            verifiedClicks: makeDelta('avgVerifiedClicks')
         };
 
         // Active subscribers delta from audience data
@@ -811,8 +813,8 @@
             'Click-Through Rate': { value: current.ctr, delta: deltas?.ctr, format: 'percent' },
             'Verified CTR': { value: current.verifiedCtr, delta: deltas?.verifiedCtr, format: 'percent' },
             'Delivery Rate': { value: current.deliveryRate, delta: deltas?.deliveryRate, format: 'percent' },
-            'Unique Clicks': { value: current.uniqueClicks, delta: deltas?.uniqueClicks, format: 'number' },
-            'Verified Clicks': { value: current.verifiedClicks, delta: deltas?.verifiedClicks, format: 'number' }
+            'Unique Clicks': { value: current.uniqueClicks, delta: deltas?.uniqueClicks, format: 'avg', total: current.totalUniqueClicks },
+            'Verified Clicks': { value: current.verifiedClicks, delta: deltas?.verifiedClicks, format: 'avg', total: current.totalVerifiedClicks }
         };
 
         document.querySelectorAll('.kpi-card').forEach(card => {
@@ -824,11 +826,28 @@
                 if (valueEl) {
                     if (data.value === null || data.value === undefined || isNaN(data.value)) {
                         valueEl.textContent = 'N/A';
+                    } else if (data.format === 'percent') {
+                        valueEl.textContent = data.value.toFixed(1) + '%';
+                    } else if (data.format === 'avg') {
+                        valueEl.textContent = Math.round(data.value).toLocaleString();
                     } else {
-                        valueEl.textContent = data.format === 'percent'
-                            ? data.value.toFixed(1) + '%'
-                            : Math.round(data.value).toLocaleString();
+                        valueEl.textContent = Math.round(data.value).toLocaleString();
                     }
+                }
+
+                // Update avg/post subtitle for click metrics
+                let subtitleEl = card.querySelector('.kpi-card__subtitle');
+                if (data.format === 'avg') {
+                    if (!subtitleEl) {
+                        subtitleEl = document.createElement('span');
+                        subtitleEl.className = 'kpi-card__subtitle';
+                        const valueEl2 = card.querySelector('.kpi-card__value');
+                        if (valueEl2) valueEl2.insertAdjacentElement('afterend', subtitleEl);
+                    }
+                    const totalVal = data.total != null ? Math.round(data.total).toLocaleString() : '0';
+                    subtitleEl.textContent = `avg/post · ${totalVal} total`;
+                } else if (subtitleEl) {
+                    subtitleEl.remove();
                 }
 
                 // Update delta pill
